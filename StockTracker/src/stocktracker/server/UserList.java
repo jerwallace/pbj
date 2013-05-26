@@ -5,6 +5,7 @@
 package stocktracker.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,6 +19,7 @@ public class UserList
 
     public UserList()
     {
+        this.userNameList = new HashMap<String, User>();
     }
 
     public boolean isUserVailable(String userName)

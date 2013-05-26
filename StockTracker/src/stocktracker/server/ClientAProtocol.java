@@ -41,6 +41,7 @@ public class ClientAProtocol
     public String processInput(String theInput)
     {
         String theOutput = null;
+        System.out.println("logged in");
         if (state == LOGIN)
         {
             theOutput = menu[0];
@@ -99,7 +100,7 @@ public class ClientAProtocol
         }
         else if (state == BUYSTOCKAMOUNT)
         {
-            theOutput = "Current Stock Value: $$$$ n";
+            theOutput = "Current Stock Value: $$$$ \n";
         }
         else if (state == UPDATEBALANCE)
         {

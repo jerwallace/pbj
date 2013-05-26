@@ -14,6 +14,7 @@ public class ClientAServer implements Runnable
 
     public ClientAServer(StockList stocklist, UserList userlist)
     {
+        this.myUser = new User("someUser", 1000);
         this.myStockList = stocklist;
         this.myUserList = userlist;
     }
@@ -25,11 +26,16 @@ public class ClientAServer implements Runnable
         ServerSocket serverSocket = null;
         try
         {
-            serverSocket = new ServerSocket(4448);
+            serverSocket = new ServerSocket(4444);
+            serverSocket.setReuseAddress(true);
+            if (serverSocket.isClosed())
+            {
+                System.out.println("Server socket is closed");
+            }
         }
         catch (IOException e)
         {
-            System.err.println("Could not listen on port: 4448");
+            System.err.println("Could not listen on port: 4444");
             System.exit(1);
         }
         Socket clientSocket = null;
