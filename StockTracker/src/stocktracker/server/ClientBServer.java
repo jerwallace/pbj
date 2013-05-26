@@ -1,22 +1,14 @@
 package stocktracker.server;
 
-import java.net.*;
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class ClientAServer implements Runnable
+public class ClientBServer implements Runnable
 {
-
-    private User myUser;
-    private StockList myStockList;
-    private UserList myUserList;
-
-    public ClientAServer(StockList stocklist, UserList userlist)
-    {
-        this.myStockList = stocklist;
-        this.myUserList = userlist;
-    }
 
     @Override
     public void run()
@@ -25,13 +17,14 @@ public class ClientAServer implements Runnable
         ServerSocket serverSocket = null;
         try
         {
-            serverSocket = new ServerSocket(4446);
+            serverSocket = new ServerSocket(4445);
         }
         catch (IOException e)
         {
-            System.err.println("Could not listen on port: 4444");
+            System.err.println("Could not listen on port: 4445.");
             System.exit(1);
         }
+
         Socket clientSocket = null;
         try
         {
@@ -39,7 +32,7 @@ public class ClientAServer implements Runnable
         }
         catch (IOException e)
         {
-            System.err.println("Accept A failed.");
+            System.err.println("Accept B failed.");
             System.exit(1);
         }
         PrintWriter out = null;
@@ -49,42 +42,25 @@ public class ClientAServer implements Runnable
         }
         catch (IOException e)
         {
-            System.err.println("ServerA cannot create PrintWriter");
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         BufferedReader in = null;
         try
         {
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            in = new BufferedReader(
+                    new InputStreamReader(
+                    clientSocket.getInputStream()));
         }
         catch (IOException e)
         {
-            System.err.println("ServerA cannot create BufferReader");
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         String inputLine, outputLine;
-        String userName = "";
 
-        out.println("Enter User Name:");
-        try
-        {
-            userName = in.readLine();
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(ClientAServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (myUserList.isUserVailable(userName))
-        {
-            myUser.setUserName(userName);
-            out.println("Logged in as: " + userName + "\n");
-        }
-        else
-        {
-            myUserList.addUser(userName);
-            out.println("User: " + userName + " created.\n");
-        }
-        ClientAProtocol stp = new ClientAProtocol(myStockList, myUserList, myUser);
+        ClientBProtocol stp = new ClientBProtocol();
+
         outputLine = stp.processInput(null);
         out.println(outputLine);
 
@@ -102,7 +78,7 @@ public class ClientAServer implements Runnable
         }
         catch (IOException e)
         {
-            System.err.println("ServerA cannot transfer to protocol");
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         out.close();
@@ -112,7 +88,7 @@ public class ClientAServer implements Runnable
         }
         catch (IOException e)
         {
-            System.err.println("ServerA cannot close input chanel");
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try
@@ -121,7 +97,7 @@ public class ClientAServer implements Runnable
         }
         catch (IOException e)
         {
-            System.err.println("ServerA cannot close clientSocket");
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try
@@ -130,7 +106,7 @@ public class ClientAServer implements Runnable
         }
         catch (IOException e)
         {
-            System.err.println("ServerA cannot close serverSocket");
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

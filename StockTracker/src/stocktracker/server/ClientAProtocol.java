@@ -1,0 +1,148 @@
+package stocktracker.server;
+
+import stocktracker.server.UserList;
+
+/**
+ *
+ * @author Bahman
+ */
+public class ClientAProtocol
+{
+
+    private User myUser;
+    private StockList myStockList;
+    private UserList myUserList;
+    private static final int LOGIN = 0;
+    private static final int SELECTCOMMAND = 1;
+    private static final int SENTCOMMAND = 2;
+    private static final int BUYSTOCK = 3;
+    private static final int BUYSTOCKAMOUNT = 4;
+    private static final int SELLSTOCK = 5;
+    private static final int SELLSTOCKAMOUNT = 6;
+    private static final int UPDATEBALANCE = 7;
+    private static final int PRINTSTOCK = 8;
+    private static final int NUMCOMMAND = 9;
+    private int state = LOGIN;
+    private int currentCommand = 0;
+    private String[] menu =
+    {
+        "Login: ",
+        "1. Buy Stock    2. Sell Stock   3. Print Stock   4. Logout",
+        "Enter Stock Name: (or type \"back\")",
+        "Enter Stock Amount:(or type \"back\")",
+        "Here is a list of stocks you own:",
+        "Logged out."
+    };
+
+    public ClientAProtocol(StockList stocklist, UserList userlist, User myuser)
+    {
+        this.myUser = myuser;
+        this.myStockList = stocklist;
+        this.myUserList = userlist;
+    }
+
+    public String processInput(String theInput)
+    {
+        User myUser = new User("myUser");
+        String theOutput = null;
+        if (state == LOGIN)
+        {
+            theOutput = menu[0];
+            state = SELECTCOMMAND;
+        }
+        else if (state == SELECTCOMMAND)
+        {
+            if (myUserList.isUserVailable(theInput))
+            {
+                myUser.setUserName(theInput);
+                theOutput = menu[1];
+                state = SENTCOMMAND;
+            }
+            else
+            {
+                myUser.setUserName(theInput);
+                myUser.setBalance(1000);
+                myUserList.addUser(theInput);
+            }
+        }
+        else if (state == SENTCOMMAND)
+        {
+            if (theInput.equalsIgnoreCase("Buy Stock"))
+            {
+                state = BUYSTOCK;
+            }
+            else if (theInput.equalsIgnoreCase("Sell Stock"))
+            {
+                state = SELLSTOCK;
+            }
+            else if (theInput.equalsIgnoreCase("Print Stock"))
+            {
+                state = PRINTSTOCK;
+            }
+            else if (theInput.equalsIgnoreCase("Log Out"))
+            {
+                state = LOGIN;
+            }
+            else
+            {
+                theOutput = "You're supposed to select a COMMAND from the menu"
+                        + "Try again";
+            }
+        }
+        else if (state == BUYSTOCK)
+        {
+            if (theInput.equalsIgnoreCase("Back"))
+            {
+                state = SENTCOMMAND;
+            }
+            else
+            {
+                //CHECK IF STOCK NAME IS VALID
+                //IF NOT, SEND ERROR MESSAGE STAY IN SAME STATE
+
+                //CHECK THE MOST RECENT VALUE OF THE STOCK HERE
+                //AND MOVE TO NEXT STATE
+
+                //CHECK AND SEE IF STOCK EXISTS IN STOCK LIST
+                //IF NOT ADD STOCK TO STOCK LIST
+
+                state = BUYSTOCKAMOUNT;
+            }
+        }
+        else if (state == BUYSTOCKAMOUNT)
+        {
+            theOutput = "Current Stock Value: $$$$ /n";
+            state = UPDATEBALANCE;
+        }
+        else if (state == UPDATEBALANCE)
+        {
+            if (theInput.equalsIgnoreCase("Back"))
+            {
+                state = BUYSTOCKAMOUNT;
+            }
+            else
+            {
+                try
+                {
+                    int numStock = Integer.valueOf(theInput);
+                    if (numStock <= 0)
+                    {
+                        theOutput = "Enter a positive value";
+                    }
+                    else
+                    {
+                        if (myUser.getBalance() >= numStock *)
+                        {
+                            state = PRINTSTOCK;
+                        }
+                    }
+                }
+                catch (NumberFormatException nfe)
+                {
+                    theOutput = "Enter correct numerical format";
+                }
+            }
+        }
+        return theOutput;
+    }
+}
