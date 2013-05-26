@@ -25,11 +25,11 @@ public class ClientAServer implements Runnable
         ServerSocket serverSocket = null;
         try
         {
-            serverSocket = new ServerSocket(4446);
+            serverSocket = new ServerSocket(4448);
         }
         catch (IOException e)
         {
-            System.err.println("Could not listen on port: 4444");
+            System.err.println("Could not listen on port: 4448");
             System.exit(1);
         }
         Socket clientSocket = null;

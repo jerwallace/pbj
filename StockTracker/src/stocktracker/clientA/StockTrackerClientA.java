@@ -25,7 +25,7 @@ public class StockTrackerClientA
 
         try
         {
-            stSocket = new Socket("localhost", 4446);
+            stSocket = new Socket("localhost", 4448);
             out = new PrintWriter(stSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(stSocket.getInputStream()));
         }

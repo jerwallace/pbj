@@ -6,7 +6,7 @@ import java.util.Map;
 public class StockList
 {
 
-    private Map<String, Stock> stocksTable;
+    private Map<String, Integer> stocksTable;
     private Time timeStamp;
 
     public Time getTimeStamp()
@@ -19,24 +19,30 @@ public class StockList
         this.timeStamp = timeStamp;
     }
 
-    public void addNewStock(Stock thisStock)
+    public void addNewStock(String name, Integer price)
     {
-        this.stocksTable.put(thisStock.getTickerName(), thisStock);
+        this.stocksTable.put(name, price);
     }
 
-    public void updateStockPrice(Stock thisStock)
+    public void updateStockPrice(String name, Integer price)
     {
-        this.stocksTable.put(thisStock.getTickerName(), thisStock);
+        this.stocksTable.put(name, price);
+    }
+
+    public Integer getStockPrice(String stockName)
+    {
+        return this.stocksTable.get(stockName);
     }
 
     @Override
     public String toString()
     {
         String mapString = "";
-        mapString = "Stock Name" + "/t" + "Stock Value";
-        for (Map.Entry<String, Stock> entry : this.stocksTable.entrySet())
+        mapString = "Stock Name" + "\t" + "Stock Value\n";
+        for (Map.Entry<String, Integer> entry : this.stocksTable.entrySet())
         {
-            mapString += entry.getValue();
+            mapString += entry.getKey() + "\t\t"
+                    + Integer.toString(entry.getValue());
         }
         return mapString;
     }

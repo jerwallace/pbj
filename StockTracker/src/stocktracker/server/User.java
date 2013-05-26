@@ -60,4 +60,15 @@ public class User
             }
         }
     }
+
+    public String getStockList()
+    {
+        String myString = "";
+        myString = "Stock Name" + "\t" + "Stock Value\n";
+        for (Map.Entry<String, Integer> entry : stocksOwned.entrySet())
+        {
+            myString += entry.getKey() + "\t\t" + entry.getValue();
+        }
+        return myString;
+    }
 }
