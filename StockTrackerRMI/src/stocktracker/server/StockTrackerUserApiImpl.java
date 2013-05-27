@@ -86,6 +86,7 @@ public class StockTrackerUserApiImpl extends StockTrackerApiImpl implements Stoc
             case BUY_STOCK:
                 currentStock = stockList.getStockByTickerName(input);
                 if (currentStock == null) {
+                    currentStock = StockTracker.getStockFromYahoo(tickerName);
                     return "No stock could be found.";
                 } else {
                     thisProtocol.setCurrentState(State.BUY_STOCK_AMOUNT);
