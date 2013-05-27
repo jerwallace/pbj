@@ -1,3 +1,5 @@
+package stocktracker.server;
+
 /**
  *
  * @author Bahman

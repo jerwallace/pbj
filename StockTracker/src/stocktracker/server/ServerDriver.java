@@ -28,9 +28,11 @@ public class ServerDriver
         Bahman.addStock(AAPL, 10);
         Bahman.addStock(GOOG, 5);
         Bahman.addStock(BBRY, 20);
+		String[] stockArr = {"GOOG"};
 
         Thread stockTrackerThread = new Thread(new StockTracker(myStockList));
-        Thread ClientA = new Thread(new ClientAServer(myStockList, myUserList));
+		Thread ClientA = new Thread(new ClientAServer(myStockList, myUserList));
+//        Thread ClientA = new Thread(new GetStockPrice(stockArr));
         //Thread ClientB = new Thread(new ClientAServer(myStockList, myUserList));
         ClientA.start();
         stockTrackerThread.start();
