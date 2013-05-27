@@ -22,16 +22,15 @@ public class ServerDriver
         myUserList.addUser(Bahman);
         myUserList.addUser(Jeremy);
         myUserList.addUser(Peter);
-        myStockList.addNewStock("bbry", BBRY);
-        myStockList.addNewStock("aapl", BBRY);
+        myStockList.addNewStock("goog", GOOG);
+        myStockList.addNewStock("aapl", AAPL);
         myStockList.addNewStock("bbry", BBRY);
         Bahman.addStock(AAPL, 10);
         Bahman.addStock(GOOG, 5);
         Bahman.addStock(BBRY, 20);
-		String[] stockArr = {"GOOG"};
 
         Thread stockTrackerThread = new Thread(new StockTracker(myStockList));
-		Thread ClientA = new Thread(new ClientAServer(myStockList, myUserList));
+        Thread ClientA = new Thread(new ClientAServer(myStockList, myUserList));
 //        Thread ClientA = new Thread(new GetStockPrice(stockArr));
         //Thread ClientB = new Thread(new ClientAServer(myStockList, myUserList));
         ClientA.start();

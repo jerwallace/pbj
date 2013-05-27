@@ -44,14 +44,19 @@ public class StockList
         //else check and see if stock is valid, get price and add to stocktable
     }
 
+    public Stock getStockObject(String tickerName)
+    {
+        return this.stocksTable.get(tickerName);
+    }
+
     @Override
     public String toString()
     {
         String mapString = "";
-        mapString = "Stock Name" + "\t" + "Stock Value\n";
+        //mapString = "Stock Name" + "\t" + "Stock Value\n";
         for (Map.Entry<String, Stock> entry : stocksTable.entrySet())
         {
-            mapString += entry.getKey() + "\t\t" + entry.getValue();
+            mapString += "  (" + entry.getKey() + ", " + entry.getValue() + ")  ,";
         }
         return mapString;
     }

@@ -51,13 +51,26 @@ public class User
         this.stocksOwned.put(stock, numStock);
     }
 
+    public void removeStock(Stock stock, Integer numStock)
+    {
+        int currentNumStock = this.stocksOwned.get(stock);
+        if ((currentNumStock - numStock) > 0)
+        {
+            this.stocksOwned.put(stock, currentNumStock - numStock);
+        }
+        else if ((currentNumStock - numStock) == 0)
+        {
+            this.stocksOwned.remove(stock);
+        }
+    }
+
     public String getStockList()
     {
         String myString = "";
-        myString = "Stock Name" + "\t" + "Stock Value\n";
+        //myString = "Stock Name" + "\t" + "Stock Value\n";
         for (Map.Entry<Stock, Integer> entry : stocksOwned.entrySet())
         {
-            myString += entry.getKey().getTickerName() + "\t\t" + entry.getValue();
+            myString += "  (" + entry.getKey().getTickerName() + ", " + entry.getValue() + ")  ,";
         }
         return myString;
     }
