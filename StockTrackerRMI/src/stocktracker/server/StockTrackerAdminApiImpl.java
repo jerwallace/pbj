@@ -12,7 +12,7 @@ import stocktracker.api.protocol.AdminProtocol;
 import java.rmi.*;
 import stocktracker.api.*;
 import stocktracker.api.protocol.InvalidCommandException;
-import stocktracker.api.protocol.Protocol;
+import stocktracker.api.protocol.AbstractProtocol;
 
 public class StockTrackerAdminApiImpl extends StockTrackerApiImpl implements StockTrackerApi {
     
@@ -30,7 +30,7 @@ public class StockTrackerAdminApiImpl extends StockTrackerApiImpl implements Sto
         
         switch (thisProtocol.getCurrentState()) {
             case LOGIN:
-                thisProtocol.setCurrentState(Protocol.State.SELECT_COMMAND);
+                thisProtocol.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
                 if (userExists(input)) {
                     return "User "+currentUser.getUserName()+" signed in.";
                 } else {
@@ -44,19 +44,19 @@ public class StockTrackerAdminApiImpl extends StockTrackerApiImpl implements Sto
                 }
                 break;
             case UPDATE_STOCK:
-                thisProtocol.setCurrentState(Protocol.State.UPDATE_STOCK_PRICE);
+                thisProtocol.setCurrentState(AbstractProtocol.State.UPDATE_STOCK_PRICE);
                 currentStock = stockList.getStockByTickerName(input);
                 if (currentStock == null) {
                     currentStock = new Stock(input,0);
                 }
                 break;
             case UPDATE_STOCK_PRICE:
-                thisProtocol.setCurrentState(Protocol.State.SELECT_COMMAND);
+                thisProtocol.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
                 currentStock.setPrice(Double.parseDouble(input));
                 stockList.updateStock(currentStock, 900);
                 return currentStock.getTickerName()+" price has changed to: $"+Double.parseDouble(input)+".";
             case PRINT_STOCK:
-                thisProtocol.setCurrentState(Protocol.State.SELECT_COMMAND);
+                thisProtocol.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
                 return stockList+"";
             default:
                 return "Error determining state.";

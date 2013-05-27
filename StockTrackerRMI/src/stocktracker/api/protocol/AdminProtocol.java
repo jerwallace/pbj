@@ -8,7 +8,7 @@ package stocktracker.api.protocol;
  *
  * @author WallaceJ
  */
-public class AdminProtocol extends Protocol {
+public class AdminProtocol extends AbstractProtocol {
 
     private String menu = "1. Update Stock Price"+"\t"+"2. Print Stock"+"\t"+"2. Log out";
     

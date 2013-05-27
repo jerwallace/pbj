@@ -33,7 +33,7 @@ public class ServerDriver
             registerObject(StockTrackerUserApi.class.getSimpleName(), new StockTrackerUserApiImpl());
             registerObject(StockTrackerApi.class.getSimpleName(), new StockTrackerAdminApiImpl());
             //Thread stockTrackerThread = new Thread(new StockTracker(myStockList));
-            Thread.sleep(5 * 60 * 1000);
+            //Thread.sleep(5 * 60 * 1000);
         }
         
 }

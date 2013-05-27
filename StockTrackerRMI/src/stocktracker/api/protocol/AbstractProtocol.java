@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author WallaceJ
  */
-public abstract class Protocol {
+public abstract class AbstractProtocol {
     
     public enum State {
         LOGIN,SELECT_COMMAND,BUY_STOCK,BUY_STOCK_AMOUNT,SELL_STOCK,SELL_STOCK_AMOUNT,

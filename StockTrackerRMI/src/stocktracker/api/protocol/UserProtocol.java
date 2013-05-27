@@ -4,13 +4,13 @@
  */
 package stocktracker.api.protocol;
 
-import static stocktracker.api.protocol.Protocol.State;
+import static stocktracker.api.protocol.AbstractProtocol.State;
 
 /**
  *
  * @author WallaceJ
  */
-public class UserProtocol extends Protocol {
+public class UserProtocol extends AbstractProtocol {
     
     private String menu = "1. Buy Stock    2. Sell Stock   3. Print Stock   4. Logout";
     

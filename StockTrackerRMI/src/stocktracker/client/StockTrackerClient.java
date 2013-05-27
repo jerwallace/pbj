@@ -14,7 +14,7 @@ import stocktracker.api.StockTrackerApi;
  *
  * @author WallaceJ
  */
-public class StockTrackerClient {
+public abstract class StockTrackerClient {
 
         protected static final String HOST = "localhost";
         protected static final int PORT = 1099;
@@ -45,7 +45,7 @@ public class StockTrackerClient {
                }
             } catch (NumberFormatException ex) {
                System.out.println("Please enter a valid number.");  
-            }
+            } 
             
         }
     }

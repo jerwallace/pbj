@@ -10,7 +10,7 @@ import java.rmi.*;
 import stocktracker.api.*;
 import stocktracker.api.protocol.InvalidCommandException;
 
-import static stocktracker.api.protocol.Protocol.State;
+import static stocktracker.api.protocol.AbstractProtocol.State;
 
 public class StockTrackerUserApiImpl extends StockTrackerApiImpl implements StockTrackerUserApi {
     

@@ -7,7 +7,7 @@ package stocktracker.server;
 import java.rmi.*;
 import java.rmi.server.*;
 import stocktracker.api.*;
-import stocktracker.api.protocol.Protocol;
+import stocktracker.api.protocol.AbstractProtocol;
 
 /**
  *
@@ -15,7 +15,7 @@ import stocktracker.api.protocol.Protocol;
  */
 public abstract class StockTrackerApiImpl extends UnicastRemoteObject implements StockTrackerApi {
 
-    protected Protocol thisProtocol;
+    protected AbstractProtocol thisProtocol;
     protected User currentUser = null;
     protected Stock currentStock = null;
     protected UserList userList = new UserList();
