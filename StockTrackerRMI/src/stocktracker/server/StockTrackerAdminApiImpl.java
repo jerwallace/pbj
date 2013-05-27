@@ -51,9 +51,10 @@ public class StockTrackerAdminApiImpl extends StockTrackerApiImpl implements Sto
                 }
                 break;
             case UPDATE_STOCK_PRICE:
+                thisProtocol.setCurrentState(Protocol.State.SELECT_COMMAND);
                 currentStock.setPrice(Double.parseDouble(input));
-                stockList.addStock(currentStock, 0);
-                return Double.parseDouble(input)+" "+currentStock.getTickerName()+" stocks purchased.";
+                stockList.updateStock(currentStock, 900);
+                return currentStock.getTickerName()+" price has changed to: $"+Double.parseDouble(input)+".";
             case PRINT_STOCK:
                 thisProtocol.setCurrentState(Protocol.State.SELECT_COMMAND);
                 return stockList+"";

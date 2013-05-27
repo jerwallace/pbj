@@ -12,35 +12,26 @@ import stocktracker.api.*;
  */
 public class ServerDriver
 {
-        private static final int USER_PORT = 1099,
-                                 ADMIN_PORT = 1100;
+        private static final int PORT = 1099;
         
-        private static Registry userRegistry, adminRegistry;
+        private static Registry registry;
 
         public static void startRegistry() throws RemoteException {
             // create in server registry
-            userRegistry = java.rmi.registry.LocateRegistry.createRegistry(USER_PORT);
-            adminRegistry = java.rmi.registry.LocateRegistry.createRegistry(ADMIN_PORT);
+            registry = java.rmi.registry.LocateRegistry.createRegistry(PORT);
         }
 
-        public static void registerUserObject(String name, Remote remoteUserObj)
+        public static void registerObject(String name, Remote remoteUserObj)
             throws RemoteException, AlreadyBoundException {
-            userRegistry.bind(name, remoteUserObj);
+            registry.bind(name, remoteUserObj);
             System.out.println("Registered: " + name + " -> " +
                 remoteUserObj.getClass().getName() + "[" + remoteUserObj + "]");
         }
-        
-        public static void registerAdminObject(String name, Remote remoteAdminObj)
-            throws RemoteException, AlreadyBoundException {
-            adminRegistry.bind(name, remoteAdminObj);
-            System.out.println("Registered: " + name + " -> " +
-                remoteAdminObj.getClass().getName() + "[" + remoteAdminObj + "]");
-        }
-        
+   
         public static void main(String[] args) throws Exception {
             startRegistry();
-            registerUserObject(StockTrackerUserApi.class.getSimpleName(), new StockTrackerUserApiImpl());
-            registerAdminObject(StockTrackerApi.class.getSimpleName(), new StockTrackerAdminApiImpl());
+            registerObject(StockTrackerUserApi.class.getSimpleName(), new StockTrackerUserApiImpl());
+            registerObject(StockTrackerApi.class.getSimpleName(), new StockTrackerAdminApiImpl());
             //Thread stockTrackerThread = new Thread(new StockTracker(myStockList));
             Thread.sleep(5 * 60 * 1000);
         }

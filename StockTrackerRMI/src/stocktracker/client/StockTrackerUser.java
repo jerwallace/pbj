@@ -32,14 +32,17 @@ public class StockTrackerUser {
             
             if (nextInstruction != null) {
                 System.out.println(nextInstruction);
+                inputString = input.nextLine();
+            }
+            try {
+               String serverOutput = remoteApi.processInput(inputString);
+               if (serverOutput != null) {
+                    System.out.println(serverOutput);    
+               }
+            } catch (NumberFormatException ex) {
+               System.out.println("Please enter a valid number.");  
             }
             
-            inputString = input.nextLine();
-            String serverOutput = remoteApi.processInput(inputString);
-            
-            if (serverOutput != null) {
-                System.out.println(serverOutput);    
-            }
             
         }
         

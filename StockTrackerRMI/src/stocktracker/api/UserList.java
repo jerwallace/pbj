@@ -18,7 +18,7 @@ public class UserList
 
     public UserList()
     {
-        this.userList = new HashMap<String, User>();
+        this.userList = new HashMap<>();
     }
 
     public User getUser(String username)

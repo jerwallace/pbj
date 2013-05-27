@@ -19,16 +19,26 @@ public class StockTrackerUserApiImpl extends StockTrackerApiImpl implements Stoc
     public StockTrackerUserApiImpl() throws RemoteException {
         super();
         thisProtocol = new UserProtocol();
+        stockList.updateStock(new Stock("BBRY",14.56), 900);
+        stockList.updateStock(new Stock("GOOG",120.0), 900);
+        stockList.updateStock(new Stock("APPL",112.23), 900);
     }
     
     @Override
     public boolean buyStock(int numStocks) throws RemoteException {
+        
         double totalCost = numStocks*currentStock.getPrice();
+        int numStocksOwned = 0;
+        
+        try {
+            numStocksOwned = currentUser.getStocksOwned().getNumStocks(currentStock.getTickerName());
+        } catch (NullPointerException ex) {}
+        
         if (currentUser.getBalance()<totalCost) {
             return false;
         } else {
             currentUser.setBalance((currentUser.getBalance()-totalCost));
-            currentUser.getStocksOwned().addStock(currentStock, numStocks);
+            currentUser.getStocksOwned().updateStock(currentStock, numStocksOwned+numStocks);
             return true;
         }
     }
@@ -49,7 +59,7 @@ public class StockTrackerUserApiImpl extends StockTrackerApiImpl implements Stoc
                 currentUser.getStocksOwned().removeStock(currentStock);
             } else {
                 // Overwrite the current stock.
-                currentUser.getStocksOwned().addStock(currentStock, (numStocksOwned-numStocks));
+                currentUser.getStocksOwned().updateStock(currentStock, (numStocksOwned-numStocks));
             }
             return true;
         }

@@ -27,7 +27,7 @@ public class StockList
         this.timeStamp = timeStamp;
     }
 
-    public void addStock(Stock stock, int numStocks)
+    public void updateStock(Stock stock, int numStocks)
     {
         this.stocksTable.put(stock.getTickerName(), stock);
         this.numStocks.put(stock.getTickerName(), numStocks);
@@ -52,10 +52,13 @@ public class StockList
     public String toString()
     {
         String mapString = "";
-        mapString = "Stock Name" + "\t" + "Stock Value\n";
+        mapString = "Stock Name" + "\t" + "Stock Value"+ "\t"+ "Num Stocks"+"\t"+ "Total\n";
         for (Map.Entry<String, Stock> entry : this.stocksTable.entrySet())
         {
-            mapString += entry.getValue();
+            Stock thisStock = entry.getValue();
+            int numStocksOwned = numStocks.get(thisStock.getTickerName());
+            
+            mapString += thisStock+"\t\t"+numStocksOwned+"\t\t"+(numStocksOwned*thisStock.getPrice())+"\n";
         }
         return mapString;
     }

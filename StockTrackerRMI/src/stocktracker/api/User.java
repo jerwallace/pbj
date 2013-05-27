@@ -16,6 +16,7 @@ public class User
     {
         this.userName = uName;
         this.balance = Balance;
+        stocksOwned = new StockList();
     }
 
     public String getUserName()

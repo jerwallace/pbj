@@ -8,7 +8,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 import stocktracker.api.StockTrackerApi;
-import stocktracker.api.StockTrackerUserApi;
 
 /**
  *
@@ -17,7 +16,7 @@ import stocktracker.api.StockTrackerUserApi;
 public class StockTrackerAdmin {
     
     private static final String HOST = "localhost";
-    private static final int PORT = 1100;
+    private static final int PORT = 1099;
     private static Registry registry;
 
     public static void main(String[] args) throws Exception {
