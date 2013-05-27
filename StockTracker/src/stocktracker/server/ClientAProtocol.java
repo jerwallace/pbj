@@ -19,14 +19,15 @@ public class ClientAProtocol
     private static final int SELLSTOCKAMOUNT = 5;
     private static final int UPDATEBALANCE = 6;
     private static final int PRINTSTOCK = 7;
-    private static final int NUMCOMMAND = 8;
+    private static final int LOGOUT = 8;
+    private static final int NUMCOMMAND = 9;
     private int state = LOGIN;
     private int currentCommand = 0;
     private String[] menu =
     {
         "1. Buy Stock    2. Sell Stock   3. Print Stock   4. Logout",
         "Enter Stock Name: (or type \"back\")",
-        "Enter Stock Amount:(or type \"back\")",
+        "Enter Stock Amount: (or type \"back\")",
         "Here is a list of stocks you own:",
         "Exit."
     };
@@ -41,7 +42,6 @@ public class ClientAProtocol
     public String processInput(String theInput)
     {
         String theOutput = null;
-        System.out.println("logged in");
         if (state == LOGIN)
         {
             theOutput = menu[0];
@@ -82,6 +82,11 @@ public class ClientAProtocol
                 theOutput = menu[0];
                 state = SELECTCOMMAND;
             }
+            else if (theInput.equals("\n"))
+            {
+                theOutput = menu[1];
+                state = SELECTCOMMAND;
+            }
             else
             {
                 //CHECK IF STOCK NAME IS VALID
@@ -100,7 +105,8 @@ public class ClientAProtocol
         }
         else if (state == BUYSTOCKAMOUNT)
         {
-            theOutput = "Current Stock Value: $$$$ \n";
+            theOutput = "Current Stock Value: " + myStockList.getStockPrice(theInput);
+            state = UPDATEBALANCE;
         }
         else if (state == UPDATEBALANCE)
         {
@@ -133,6 +139,11 @@ public class ClientAProtocol
                     theOutput = "Enter correct numerical format";
                 }
             }
+        }
+        else if (state == LOGOUT)
+        {
+            state = LOGIN;
+            theOutput = "Exit";
         }
         return theOutput;
     }

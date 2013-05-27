@@ -4,7 +4,6 @@
  */
 package stocktracker.server;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,14 +33,25 @@ public class UserList
         }
     }
 
-    public void addUser(String userName)
+    public void addUser(User newUser)
     {
-        User newUser = new User(userName, 1000);
-        userNameList.put(userName, newUser);
+        userNameList.put(newUser.getUserName(), newUser);
     }
 
     public void removeUser(String userName)
     {
         userNameList.remove(userName);
+    }
+
+    public User getUser(String userName)
+    {
+        if (this.userNameList.containsKey(userName))
+        {
+            return this.userNameList.get(userName);
+        }
+        else
+        {
+            return null;
+        }
     }
 }

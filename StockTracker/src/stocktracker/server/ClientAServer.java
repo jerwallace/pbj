@@ -82,18 +82,18 @@ public class ClientAServer implements Runnable
         }
         if (myUserList.isUserVailable(userName))
         {
-            myUser.setUserName(userName);
-            out.println("Logged in as: " + userName + "\n");
+            myUser = myUserList.getUser(userName);
+            out.println("Logged in.\t"
+                    + "1. Buy Stock    2. Sell Stock   3. Print Stock   4. Logout");
         }
         else
         {
-            myUserList.addUser(userName);
+            User newUser = new User(userName, 1000);
+            myUserList.addUser(newUser);
             out.println("User: " + userName + " created.\n");
         }
         ClientAProtocol stp = new ClientAProtocol(myStockList, myUserList, myUser);
         outputLine = stp.processInput(null);
-        out.println(outputLine);
-
         try
         {
             while ((inputLine = in.readLine()) != null)

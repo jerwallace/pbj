@@ -1,13 +1,19 @@
 package stocktracker.server;
 
 import java.sql.Time;
+import java.util.HashMap;
 import java.util.Map;
 
 public class StockList
 {
 
-    private Map<String, Integer> stocksTable;
+    private Map<String, Stock> stocksTable;
     private Time timeStamp;
+
+    public StockList()
+    {
+        this.stocksTable = new HashMap<String, Stock>();
+    }
 
     public Time getTimeStamp()
     {
@@ -19,19 +25,23 @@ public class StockList
         this.timeStamp = timeStamp;
     }
 
-    public void addNewStock(String name, Integer price)
+    public void addNewStock(String name, Stock stock)
     {
-        this.stocksTable.put(name, price);
+        this.stocksTable.put(name, stock);
     }
 
-    public void updateStockPrice(String name, Integer price)
+    public void updateStockPrice(String name, Stock stock)
     {
-        this.stocksTable.put(name, price);
+        this.stocksTable.put(name, stock);
     }
 
-    public Integer getStockPrice(String stockName)
+    public Double getStockPrice(String stockName)
     {
-        return this.stocksTable.get(stockName);
+//        if (stocksTable.containsKey(stockName))
+//        {
+        return this.stocksTable.get(stockName).getPrice();
+//        }
+        //else check and see if stock is valid, get price and add to stocktable
     }
 
     @Override
@@ -39,10 +49,9 @@ public class StockList
     {
         String mapString = "";
         mapString = "Stock Name" + "\t" + "Stock Value\n";
-        for (Map.Entry<String, Integer> entry : this.stocksTable.entrySet())
+        for (Map.Entry<String, Stock> entry : stocksTable.entrySet())
         {
-            mapString += entry.getKey() + "\t\t"
-                    + Integer.toString(entry.getValue());
+            mapString += entry.getKey() + "\t\t" + entry.getValue();
         }
         return mapString;
     }

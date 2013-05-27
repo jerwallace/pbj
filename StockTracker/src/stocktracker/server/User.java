@@ -4,6 +4,7 @@ package stocktracker.server;
  *
  * @author Bahman
  */
+import java.util.HashMap;
 import java.util.Map;
 
 public class User
@@ -11,7 +12,7 @@ public class User
 
     private String userName;
     private double balance;
-    private Map<String, Integer> stocksOwned;
+    private Map<Stock, Integer> stocksOwned;
 
     public User(String uName, double Balance)
     {
@@ -21,6 +22,7 @@ public class User
 
     public String getUserName()
     {
+        this.stocksOwned = new HashMap<Stock, Integer>();
         return this.userName;
     }
 
@@ -39,35 +41,23 @@ public class User
         this.balance = balance;
     }
 
-    public Map<String, Integer> getStocksOwned()
+    public Map<Stock, Integer> getStocksOwned()
     {
         return this.stocksOwned;
     }
 
-    public void addStock(String tickerName, Integer numStock)
+    public void addStock(Stock stock, Integer numStock)
     {
-        if (this.stocksOwned.isEmpty())
-        {
-            this.stocksOwned.put(tickerName, numStock);
-        }
-        else
-        {
-            if (this.stocksOwned.containsKey(tickerName))
-            {
-                int currentNumStock = this.stocksOwned.get(tickerName);
-                this.stocksOwned.remove(tickerName);
-                this.stocksOwned.put(tickerName, (numStock + currentNumStock));
-            }
-        }
+        this.stocksOwned.put(stock, numStock);
     }
 
     public String getStockList()
     {
         String myString = "";
         myString = "Stock Name" + "\t" + "Stock Value\n";
-        for (Map.Entry<String, Integer> entry : stocksOwned.entrySet())
+        for (Map.Entry<Stock, Integer> entry : stocksOwned.entrySet())
         {
-            myString += entry.getKey() + "\t\t" + entry.getValue();
+            myString += entry.getKey().getTickerName() + "\t\t" + entry.getValue();
         }
         return myString;
     }
