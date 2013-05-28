@@ -8,13 +8,11 @@ public class StockList
 {
 
     private Map<String, Stock> stocksTable;
-    private Map<String, Integer> numStocks;
-    
     private Time timeStamp;
-    
-    public StockList() {
+
+    public StockList()
+    {
         stocksTable = new HashMap<>();
-        numStocks = new HashMap<>();
     }
 
     public Time getTimeStamp()
@@ -27,38 +25,50 @@ public class StockList
         this.timeStamp = timeStamp;
     }
 
-    public void updateStock(Stock stock, int numStocks)
+    public void updateStock(Stock stock)
     {
         this.stocksTable.put(stock.getTickerName(), stock);
-        this.numStocks.put(stock.getTickerName(), numStocks);
-    }
-    
-    public void removeStock(Stock stock) {
-        this.stocksTable.remove(stock.getTickerName());
-        this.numStocks.remove(stock.getTickerName());
     }
 
-    public Stock getStockByTickerName(String tickerName) 
+    public void removeStock(Stock stock)
     {
-        return this.stocksTable.get(tickerName);
+        this.stocksTable.remove(stock.getTickerName());
     }
-    
-    public int getNumStocks(String tickerName) 
+
+    public Stock getStockByTickerName(String tickerName)
     {
-        return this.numStocks.get(tickerName);
+        if (stocksTable.containsKey(tickerName))
+        {
+            return this.stocksTable.get(tickerName);
+        }
+        else
+        {
+            //try{
+            //Stock newStock = StockTracker.getStockInto(tickerName);
+            //stocksTable.put(tickerName, newStock);
+            //return newStock;
+            //}
+            //catch invalidStockName isn()
+//            {
+//                return null;
+//            }
+            return null;
+        }
+    }
+
+    public int getNumStocks(String tickerName)
+    {
+        return this.stocksTable.get(tickerName).getVolume();
     }
 
     @Override
     public String toString()
     {
         String mapString = "";
-        mapString = "Stock Name" + "\t" + "Stock Value"+ "\t"+ "Num Stocks"+"\t"+ "Total\n";
+        mapString = "Stock Name" + "\t" + "Stock Value";
         for (Map.Entry<String, Stock> entry : this.stocksTable.entrySet())
         {
-            Stock thisStock = entry.getValue();
-            int numStocksOwned = numStocks.get(thisStock.getTickerName());
-            
-            mapString += thisStock+"\t\t"+numStocksOwned+"\t\t"+(numStocksOwned*thisStock.getPrice())+"\n";
+            mapString += entry.getValue();
         }
         return mapString;
     }

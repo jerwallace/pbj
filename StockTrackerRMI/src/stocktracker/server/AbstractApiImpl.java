@@ -13,38 +13,44 @@ import stocktracker.api.protocol.AbstractProtocol;
  *
  * @author WallaceJ
  */
-public abstract class StockTrackerApiImpl extends UnicastRemoteObject implements StockTrackerApi {
+public abstract class AbstractApiImpl extends UnicastRemoteObject implements AbstractApi
+{
 
     protected AbstractProtocol thisProtocol;
     protected User currentUser = null;
     protected Stock currentStock = null;
     protected UserList userList = new UserList();
     protected StockList stockList = new StockList();
-    
-    public StockTrackerApiImpl() throws RemoteException {
+
+    public AbstractApiImpl() throws RemoteException
+    {
         super();
     }
-    
+
     @Override
     public abstract String processInput(String input) throws RemoteException;
-    
+
     @Override
-    public String getNextInstruction() throws RemoteException {
+    public String getNextInstruction() throws RemoteException
+    {
         return thisProtocol.getInstruction();
     }
-    
+
     @Override
-    public boolean userExists(String username) throws RemoteException {
+    public boolean userExists(String username) throws RemoteException
+    {
 
         currentUser = userList.getUser(username);
-            
-        if (currentUser==null) {
+
+        if (currentUser == null)
+        {
             currentUser = userList.addUser(username);
             return false;
-        } else {
+        }
+        else
+        {
             return true;
         }
-        
+
     }
-    
 }

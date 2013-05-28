@@ -30,8 +30,8 @@ public class ServerDriver
    
         public static void main(String[] args) throws Exception {
             startRegistry();
-            registerObject(StockTrackerUserApi.class.getSimpleName(), new StockTrackerUserApiImpl());
-            registerObject(StockTrackerApi.class.getSimpleName(), new StockTrackerAdminApiImpl());
+            registerObject(UserApi.class.getSimpleName(), new UserApiImpl());
+            registerObject(AbstractApi.class.getSimpleName(), new AdminApiImpl());
             //Thread stockTrackerThread = new Thread(new StockTracker(myStockList));
             //Thread.sleep(5 * 60 * 1000);
         }

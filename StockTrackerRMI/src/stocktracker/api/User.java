@@ -1,22 +1,25 @@
 package stocktracker.api;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  *
  * @author Bahman
  */
-
 public class User
 {
 
     private String userName;
     private double balance;
-    private StockList stocksOwned;
+    private Map<String, Integer> stocksOwned;
 
     public User(String uName, double Balance)
     {
         this.userName = uName;
         this.balance = Balance;
-        stocksOwned = new StockList();
+        stocksOwned = new HashMap<>();
     }
 
     public String getUserName()
@@ -39,9 +42,8 @@ public class User
         this.balance = balance;
     }
 
-    public StockList getStocksOwned()
+    public Map<String, Integer> getStocksOwned()
     {
         return this.stocksOwned;
     }
-
 }

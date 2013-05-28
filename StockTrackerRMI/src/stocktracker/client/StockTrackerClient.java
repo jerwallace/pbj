@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
-import stocktracker.api.StockTrackerApi;
+import stocktracker.api.AbstractApi;
 
 /**
  *
@@ -19,7 +19,7 @@ public abstract class StockTrackerClient {
         protected static final String HOST = "localhost";
         protected static final int PORT = 1099;
         protected static Registry registry;
-        protected static StockTrackerApi remoteApi;
+        protected static AbstractApi remoteApi;
     
         public static void loadRegistry() throws RemoteException {
             registry = LocateRegistry.getRegistry(HOST, PORT);
