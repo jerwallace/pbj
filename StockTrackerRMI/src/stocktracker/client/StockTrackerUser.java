@@ -4,7 +4,7 @@
  */
 package stocktracker.client;
 
-import stocktracker.api.StockTrackerUserApi;
+import stocktracker.api.UserApi;
 
 /**
  *
@@ -14,7 +14,7 @@ public class StockTrackerUser extends StockTrackerClient {
     
     public static void main(String[] args) throws Exception  {
         loadRegistry();
-        remoteApi = (StockTrackerUserApi) registry.lookup(StockTrackerUserApi.class.getSimpleName());
+        remoteApi = (UserApi) registry.lookup(UserApi.class.getSimpleName());
         run();
     }
 }

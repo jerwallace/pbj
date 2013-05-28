@@ -10,52 +10,72 @@ import static stocktracker.api.protocol.AbstractProtocol.State;
  *
  * @author WallaceJ
  */
-public class UserProtocol extends AbstractProtocol {
-    
-    private String menu = "1. Buy Stock    2. Sell Stock   3. Print Stock   4. Logout";
-    
+public class UserProtocol extends AbstractProtocol
+{
+
+    private String menu = "1. Buy Stock    2. Sell Stock   3. Print Stock  4. Query Stock 5. Logout";
+
+    public enum Stock_Action
+    {
+
+        BUY_STOCK, SELL_STOCK, QUERY_STOCK
+    }
+    private Stock_Action currentAction = Stock_Action.QUERY_STOCK;
+
     @Override
-    public void toggleStateByCommand(int input) throws InvalidCommandException {
-        switch (input) {
+    public void toggleStateByCommand(int input) throws InvalidCommandException
+    {
+        switch (input)
+        {
             case 1:
-                currentState = State.BUY_STOCK;
+                currentAction = Stock_Action.BUY_STOCK;
+                currentState = State.SELECT_STOCK;
                 break;
             case 2:
-                currentState = State.SELL_STOCK;
+                currentAction = Stock_Action.SELL_STOCK;
+                currentState = State.SELECT_STOCK;
                 break;
             case 3:
-                currentState = State.PRINT_STOCK;
+                currentAction = Stock_Action.QUERY_STOCK;
+                currentState = State.QUERY;
                 break;
             case 4:
+                currentState = State.PRINT_STOCK;
+                break;
+            case 5:
                 currentState = State.LOGIN;
                 break;
             default:
                 throw new InvalidCommandException();
         }
     }
-    
+
     @Override
-    public String getInstruction() {
-        switch (currentState) {
+    public String getInstruction()
+    {
+        switch (currentState)
+        {
             case LOGIN:
                 return "Login:";
             case SELECT_COMMAND:
                 return menu;
-            case BUY_STOCK: 
-                return "Which stock would you like to buy?";
-            case BUY_STOCK_AMOUNT: 
-                return "How much stock would you like to buy?";
-            case SELL_STOCK: 
-                return "Which stock would you like to sell?";
-            case SELL_STOCK_AMOUNT: 
-                return "How much stock would you like to sell?";
-            case UPDATE_BALANCE: 
-                return "Current balance:"; 
-            case PRINT_STOCK: 
+            case SELECT_STOCK:
+                return "Which stock would you like to trade?";
+            case TRADE_STOCK_AMOUNT:
+                return "How nmany stocks would you like to trade?";
+            case UPDATE_BALANCE:
+                return "Current balance:";
+            case QUERY:
+                return "Which stock would you like to query?";
+            case PRINT_STOCK:
                 return menu;
             default:
                 return "Error determining state.";
         }
     }
 
+    public Stock_Action getTradeFlag()
+    {
+        return currentAction;
+    }
 }

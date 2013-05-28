@@ -10,27 +10,29 @@ import java.util.ArrayList;
  *
  * @author WallaceJ
  */
-public abstract class AbstractProtocol {
-    
-    public enum State {
-        LOGIN,SELECT_COMMAND,BUY_STOCK,BUY_STOCK_AMOUNT,SELL_STOCK,SELL_STOCK_AMOUNT,
-        UPDATE_BALANCE, PRINT_STOCK, NUM_COMMAND, UPDATE_STOCK, UPDATE_STOCK_PRICE
+public abstract class AbstractProtocol
+{
+
+    public enum State
+    {
+
+        LOGIN, SELECT_COMMAND, UPDATE_BALANCE, PRINT_STOCK, QUERY, NUM_COMMAND,
+        UPDATE_STOCK, UPDATE_STOCK_PRICE, SELECT_STOCK, TRADE_STOCK_AMOUNT
     }
-    
     protected State currentState = State.LOGIN;
-    
     protected ArrayList<String> messages = new ArrayList<String>();
-    
+
     public abstract String getInstruction();
-    
+
     public abstract void toggleStateByCommand(int input) throws InvalidCommandException;
-    
-    public void setCurrentState(State newState) {
+
+    public void setCurrentState(State newState)
+    {
         this.currentState = newState;
     }
-    
-    public State getCurrentState() {
+
+    public State getCurrentState()
+    {
         return currentState;
     }
-
 }

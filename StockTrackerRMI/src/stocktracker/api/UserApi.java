@@ -11,7 +11,7 @@ import java.rmi.*;
  * @author WallaceJ
  */
 
-public interface StockTrackerUserApi extends StockTrackerApi {
+public interface UserApi extends AbstractApi {
     
     public boolean buyStock(int numStocks) throws RemoteException;
 

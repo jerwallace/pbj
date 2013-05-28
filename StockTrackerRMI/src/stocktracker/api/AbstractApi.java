@@ -12,7 +12,7 @@ import stocktracker.api.protocol.AbstractProtocol.State;
  *
  * @author WallaceJ
  */
-public interface StockTrackerApi extends Remote {
+public interface AbstractApi extends Remote {
     
     public String processInput(String input) throws RemoteException;
      
