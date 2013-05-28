@@ -12,6 +12,7 @@ import stocktracker.api.*;
  */
 public class ServerDriver
 {
+            
         private static final int PORT = 1099;
         
         private static Registry registry;
@@ -29,6 +30,7 @@ public class ServerDriver
         }
    
         public static void main(String[] args) throws Exception {
+            
             startRegistry();
             registerObject(UserApi.class.getSimpleName(), new UserApiImpl());
             registerObject(AbstractApi.class.getSimpleName(), new AdminApiImpl());
