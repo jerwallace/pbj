@@ -13,7 +13,7 @@ import static stocktracker.api.protocol.AbstractProtocol.State;
 public class UserProtocol extends AbstractProtocol
 {
 
-    private String menu = "1. Buy Stock    2. Sell Stock   3. Print Stock  4. Query Stock 5. Logout";
+    private String menu = "1. Buy Stock    2. Sell Stock   3. Query Stock  4. Print Stock  5. Logout";
 
     public enum Stock_Action
     {
@@ -60,15 +60,15 @@ public class UserProtocol extends AbstractProtocol
             case SELECT_COMMAND:
                 return menu;
             case SELECT_STOCK:
-                return "Which stock would you like to trade?";
+                return "Which stock would you like to trade? (or type \"cancel\" to go back)";
             case TRADE_STOCK_AMOUNT:
-                return "How nmany stocks would you like to trade?";
+                return "How nmany stocks would you like to trade?(or type \"cancel\" to go back)";
             case UPDATE_BALANCE:
                 return "Current balance:";
             case QUERY:
-                return "Which stock would you like to query?";
+                return "Which stock would you like to query?(or type \"cancel\" to go back)";
             case PRINT_STOCK:
-                return menu;
+                return "Here is a list of all stocks you own: " + "Stock Name" + "\t" + "Stock Value\n";
             default:
                 return "Error determining state.";
         }

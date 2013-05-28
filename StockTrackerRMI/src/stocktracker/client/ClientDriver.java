@@ -14,7 +14,7 @@ import stocktracker.api.AbstractApi;
  *
  * @author WallaceJ
  */
-public abstract class StockTrackerClient {
+public abstract class ClientDriver {
 
         protected static final String HOST = "localhost";
         protected static final int PORT = 1099;

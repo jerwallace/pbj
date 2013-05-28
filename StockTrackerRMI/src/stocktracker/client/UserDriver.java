@@ -4,18 +4,17 @@
  */
 package stocktracker.client;
 
-import stocktracker.api.AbstractApi;
+import stocktracker.api.UserApi;
 
 /**
  *
  * @author WallaceJ
  */
-public class StockTrackerAdmin extends StockTrackerClient {
+public class UserDriver extends ClientDriver {
     
     public static void main(String[] args) throws Exception  {
         loadRegistry();
-        remoteApi = (AbstractApi) registry.lookup(AbstractApi.class.getSimpleName());
+        remoteApi = (UserApi) registry.lookup(UserApi.class.getSimpleName());
         run();
-        
     }
 }

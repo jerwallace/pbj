@@ -46,4 +46,14 @@ public class User
     {
         return this.stocksOwned;
     }
+
+    public String printStocksOwned()
+    {
+        String mapString = "";
+        for (Map.Entry<String, Integer> entry : this.stocksOwned.entrySet())
+        {
+            mapString += entry.getKey() + "\t\t" + entry.getValue() + "\n";
+        }
+        return mapString;
+    }
 }

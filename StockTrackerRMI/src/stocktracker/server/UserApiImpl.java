@@ -22,7 +22,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         thisProtocol = new UserProtocol();
         stockList.updateStock(new Stock("BBRY", 14.56, 13000000));
         stockList.updateStock(new Stock("GOOG", 120.0, 2300000));
-        stockList.updateStock(new Stock("APPL", 112.23, 9870000));
+        stockList.updateStock(new Stock("AAPL", 112.23, 9870000));
         userList.addUser("bahman").setBalance(10000);
         userList.addUser("jeremy").setBalance(5000);
         userList.addUser("peter").setBalance(0);
@@ -87,80 +87,87 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
     @Override
     public String processInput(String input) throws RemoteException
     {
-
-        switch (thisProtocol.getCurrentState())
+        if (input.equalsIgnoreCase("cancel"))
         {
-            case LOGIN:
-                thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                if (userExists(input))
-                {
-                    return "User " + currentUser.getUserName() + " signed in.";
-                }
-                else
-                {
-                    return "User " + currentUser.getUserName() + " created.";
-                }
-            case SELECT_COMMAND:
-                try
-                {
-                    thisProtocol.toggleStateByCommand(Integer.parseInt(input));
-                }
-                catch (InvalidCommandException ex)
-                {
-                    return "Please enter a valid command.";
-                }
-                break;
-            case SELECT_STOCK:
-                currentStock = stockList.getStockByTickerName(input);
-                if (currentStock == null)
-                {
-                    return "Not a valid stock.";
-                }
-                else
-                {
-                    if (((UserProtocol) thisProtocol).getTradeFlag() != UserProtocol.Stock_Action.QUERY_STOCK)
+            thisProtocol.setCurrentState(State.SELECT_COMMAND);
+            return null;
+        }
+        else
+        {
+            switch (thisProtocol.getCurrentState())
+            {
+                case LOGIN:
+                    thisProtocol.setCurrentState(State.SELECT_COMMAND);
+                    if (userExists(input))
                     {
-                        thisProtocol.setCurrentState(State.TRADE_STOCK_AMOUNT);
+                        return "User " + currentUser.getUserName() + " signed in.";
                     }
                     else
                     {
-                        thisProtocol.setCurrentState(State.SELECT_COMMAND);
+                        return "User " + currentUser.getUserName() + " created.";
                     }
-                    return input + " Stock price is currently @: $" + currentStock.getPrice();
-                }
-            case TRADE_STOCK_AMOUNT:
-                if (((UserProtocol) thisProtocol).getTradeFlag() == UserProtocol.Stock_Action.BUY_STOCK)
-                {
-                    if (buyStock(Integer.parseInt(input)))
+                case SELECT_COMMAND:
+                    try
                     {
-                        thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                        return Integer.parseInt(input) + " " + currentStock.getTickerName() + " stocks purchased.";
+                        thisProtocol.toggleStateByCommand(Integer.parseInt(input));
+                    }
+                    catch (InvalidCommandException ex)
+                    {
+                        return "Please enter a valid command.";
+                    }
+                    break;
+                case SELECT_STOCK:
+                    currentStock = stockList.getStockByTickerName(input);
+                    if (currentStock == null)
+                    {
+                        return "Not a valid stock.";
                     }
                     else
                     {
-                        return "Insufficient funds to buy stocks.";
+                        if (((UserProtocol) thisProtocol).getTradeFlag() != UserProtocol.Stock_Action.QUERY_STOCK)
+                        {
+                            thisProtocol.setCurrentState(State.TRADE_STOCK_AMOUNT);
+                        }
+                        else
+                        {
+                            thisProtocol.setCurrentState(State.SELECT_COMMAND);
+                        }
+                        return input + " Stock price is currently @: $" + currentStock.getPrice();
                     }
-                }
-                else if (((UserProtocol) thisProtocol).getTradeFlag() == UserProtocol.Stock_Action.SELL_STOCK)
-                {
-                    if (sellStock(Integer.parseInt(input)))
+                case TRADE_STOCK_AMOUNT:
+                    if (((UserProtocol) thisProtocol).getTradeFlag() == UserProtocol.Stock_Action.BUY_STOCK)
                     {
-                        thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                        return Integer.parseInt(input) + " " + currentStock.getTickerName() + " stocks sold.";
+                        if (buyStock(Integer.parseInt(input)))
+                        {
+                            thisProtocol.setCurrentState(State.SELECT_COMMAND);
+                            return Integer.parseInt(input) + " " + currentStock.getTickerName() + " stocks purchased.";
+                        }
+                        else
+                        {
+                            return "Insufficient funds to buy stocks.";
+                        }
                     }
-                    else
+                    else if (((UserProtocol) thisProtocol).getTradeFlag() == UserProtocol.Stock_Action.SELL_STOCK)
                     {
-                        return "You do not have enough stocks.";
+                        if (sellStock(Integer.parseInt(input)))
+                        {
+                            thisProtocol.setCurrentState(State.SELECT_COMMAND);
+                            return Integer.parseInt(input) + " " + currentStock.getTickerName() + " stocks sold.";
+                        }
+                        else
+                        {
+                            return "You do not have enough stocks.";
+                        }
                     }
-                }
-            case UPDATE_BALANCE:
-                thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                return currentUser.getBalance() + "";
-            case PRINT_STOCK:
-                thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                return currentUser.getStocksOwned() + "";
-            default:
-                return "Error determining state.";
+                case UPDATE_BALANCE:
+                    thisProtocol.setCurrentState(State.SELECT_COMMAND);
+                    return currentUser.getBalance() + "";
+                case PRINT_STOCK:
+                    thisProtocol.setCurrentState(State.SELECT_COMMAND);
+                    return currentUser.printStocksOwned();
+                default:
+                    return "Error determining state.";
+            }
         }
 
         return null;
