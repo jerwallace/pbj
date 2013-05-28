@@ -35,7 +35,7 @@ public class GetStockInfo {
 
 	}
         
-	public static GetStockInfo getInstance(String[] stockArr) {
+	public static GetStockInfo getInstance() {
 		
 		if (stockInfoConnector == null) {
 
@@ -52,15 +52,8 @@ public class GetStockInfo {
 			}
 		}
                 
-		try {
-			run(stockArr);
-		} catch (JSONException ex) {
-			Logger.getLogger(Stock.class.getName()).log(Level.SEVERE, null, ex);
-		}
-
 		return stockInfoConnector;
 	}
-	
 	
 	private static String readAll(Reader rd) throws IOException {
 		StringBuilder sb = new StringBuilder();
@@ -71,7 +64,7 @@ public class GetStockInfo {
 		return sb.toString();
 	}
 	
-	public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+	private static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
 		InputStream is = new URL(url).openStream();
 		try {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
@@ -82,14 +75,14 @@ public class GetStockInfo {
 			is.close();
 		}
 	}
-	
-	public static void run(String[] stockArr) throws JSONException {
+
+	public static Stock getStockInfo(String[] stockArr) throws JSONException {
 		try {
 
 			for (String ticker : stockArr)
 				uri = uri.concat("\"" + ticker + "\"");
 		
-			uri = uri.concat(")"); 		// closeing bracket
+			uri = uri.concat(")"); 		// closing bracket
 
 			String yql = new StringBuilder("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20")
 							.append(uri).append("%0A%09%09&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env&callback=").toString();
@@ -108,6 +101,8 @@ public class GetStockInfo {
 		} catch (IOException ex) {
 			Logger.getLogger(Stock.class.getName()).log(Level.SEVERE, null, ex);
 		}
+
+		return null;
 	}
 	
 	/**
