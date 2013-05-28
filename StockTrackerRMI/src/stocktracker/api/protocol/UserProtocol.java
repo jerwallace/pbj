@@ -68,7 +68,7 @@ public class UserProtocol extends AbstractProtocol
             case QUERY:
                 return "Which stock would you like to query?(or type \"cancel\" to go back)";
             case PRINT_STOCK:
-                return "Here is a list of all stocks you own: " + "Stock Name" + "\t" + "Stock Value\n";
+                return null;
             default:
                 return "Error determining state.";
         }

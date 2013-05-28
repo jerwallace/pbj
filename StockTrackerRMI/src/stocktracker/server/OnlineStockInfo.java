@@ -25,7 +25,6 @@ import stocktracker.api.Stock;
  */
 public class OnlineStockInfo {
 	
-	private static String uri = "(";
 	private static OnlineStockInfo stockInfoInstance = null;
         private Stock thisStock;
         

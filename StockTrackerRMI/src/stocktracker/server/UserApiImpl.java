@@ -87,6 +87,9 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
     @Override
     public String processInput(String input) throws RemoteException
     {
+        
+        String output = "";
+        
         if (input.equalsIgnoreCase("cancel"))
         {
             thisProtocol.setCurrentState(State.SELECT_COMMAND);
@@ -163,8 +166,9 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
                     thisProtocol.setCurrentState(State.SELECT_COMMAND);
                     return currentUser.getBalance() + "";
                 case PRINT_STOCK:
+                    output = "Here is a list of all stocks you own: " + "Stock Name" + "\t" + "Stock Value\n";
                     thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                    return currentUser.printStocksOwned();
+                    return output+currentUser.printStocksOwned();
                 default:
                     return "Error determining state.";
             }
