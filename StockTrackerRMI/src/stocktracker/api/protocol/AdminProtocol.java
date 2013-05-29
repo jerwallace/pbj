@@ -25,7 +25,7 @@ public class AdminProtocol extends AbstractProtocol
             case UPDATE_STOCK:
                 return "Which stock would you like to update? (or type \"cancel\" to go back)";
             case UPDATE_STOCK_PRICE:
-                return null;
+                return "Enter new stock value: (or type \"cancel\" to go back)";
             case PRINT_STOCK:
                 return null;
             default:

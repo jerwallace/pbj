@@ -25,6 +25,9 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
     {
         super();
         thisProtocol = new AdminProtocol();
+        userList.addUser("bahman");
+        userList.addUser("jeremy");
+        userList.addUser("peter");
     }
 
     @Override
@@ -64,6 +67,7 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
                 case UPDATE_STOCK:
                     thisProtocol.setCurrentState(AbstractProtocol.State.UPDATE_STOCK_PRICE);
                     currentStock = stockList.getStockByTickerName(input);
+                    currentUser.getStocksOwned().put(currentStock.getTickerName(), 1);
                     if (currentStock == null)
                     {
                         stockList.updateStock(currentStock);
@@ -75,7 +79,7 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
                     stockList.updateStock(currentStock);
                     return currentStock.getTickerName() + " price has changed to: $" + Double.parseDouble(input) + ".";
                 case PRINT_STOCK:
-                    output = "Here is a list of all stocks you own: " + "Stock Name" + "\t" + "Stock Value\n";
+                    output = "Here is a list of all stocks you have updated:\n" + "Stock Name" + "\t" + "Stock Price\n";
                     thisProtocol.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
                     return output + currentUser.printStocksOwned();
                 default:

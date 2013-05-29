@@ -20,9 +20,9 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
     {
         super();
         thisProtocol = new UserProtocol();
-        stockList.updateStock(new Stock("BBRY", 14.56, 13000000));
-        stockList.updateStock(new Stock("GOOG", 120.0, 2300000));
-        stockList.updateStock(new Stock("AAPL", 112.23, 9870000));
+//        stockList.updateStock(new Stock("BBRY", 14.56, 13000000));
+//        stockList.updateStock(new Stock("GOOG", 120.0, 2300000));
+//        stockList.updateStock(new Stock("AAPL", 112.23, 9870000));
         userList.addUser("bahman").setBalance(10000);
         userList.addUser("jeremy").setBalance(5000);
         userList.addUser("peter").setBalance(0);
@@ -87,9 +87,9 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
     @Override
     public String processInput(String input) throws RemoteException
     {
-        
+
         String output = "";
-        
+
         if (input.equalsIgnoreCase("cancel"))
         {
             thisProtocol.setCurrentState(State.SELECT_COMMAND);
@@ -166,9 +166,9 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
                     thisProtocol.setCurrentState(State.SELECT_COMMAND);
                     return currentUser.getBalance() + "";
                 case PRINT_STOCK:
-                    output = "Here is a list of all stocks you own: " + "Stock Name" + "\t" + "Stock Value\n";
+                    output = "Here is a list of all stocks you own:\n" + "Stock Name" + "\t" + "Number of Stocks\n";
                     thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                    return output+currentUser.printStocksOwned();
+                    return output + currentUser.printStocksOwned();
                 default:
                     return "Error determining state.";
             }
