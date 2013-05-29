@@ -89,6 +89,7 @@ public class OnlineStockInfo {
             System.out.println(json);
             JSONObject results = json.getJSONObject("query").getJSONObject("results").getJSONObject("quote");
             thisStock.setPrice(Double.parseDouble(results.get("Bid").toString())+Double.parseDouble(results.get("Ask").toString()) / 2);
+            thisStock.setVolume(Integer.parseInt(results.get("Volume").toString()));
         } 
         catch (IOException ex) {
             Logger.getLogger(Stock.class.getName()).log(Level.SEVERE, null, ex);

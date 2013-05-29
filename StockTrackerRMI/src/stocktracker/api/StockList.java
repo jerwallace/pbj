@@ -3,6 +3,7 @@ package stocktracker.api;
 import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
+import stocktracker.server.OnlineStockInfo;
 
 public class StockList
 {
@@ -44,15 +45,15 @@ public class StockList
         else
         {
             //try{
-            //Stock newStock = StockTracker.getStockInto(tickerName);
-            //stocksTable.put(tickerName, newStock);
-            //return newStock;
+            Stock newStock = OnlineStockInfo.getLatestStockInfo(new Stock(tickerName,0,0));
+            stocksTable.put(tickerName, newStock);
+            return newStock;
             //}
             //catch invalidStockName isn()
 //            {
 //                return null;
 //            }
-            return null;
+            //return null;
         }
     }
 

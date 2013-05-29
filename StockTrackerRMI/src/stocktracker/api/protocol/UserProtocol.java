@@ -60,6 +60,7 @@ public class UserProtocol extends AbstractProtocol
             case SELECT_COMMAND:
                 return menu;
             case SELECT_STOCK:
+                
                 return "Which stock would you like to trade? (or type \"cancel\" to go back)";
             case TRADE_STOCK_AMOUNT:
                 return "How nmany stocks would you like to trade?(or type \"cancel\" to go back)";
