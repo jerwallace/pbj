@@ -10,12 +10,13 @@ import stocktracker.api.AbstractApi;
  *
  * @author WallaceJ
  */
-public class AdminDriver extends AbstractClient {
-    
-    public static void main(String[] args) throws Exception  {
+public class AdminDriver extends AbstractClient
+{
+
+    public static void main(String[] args) throws Exception
+    {
         loadRegistry();
         remoteApi = (AbstractApi) registry.lookup(AbstractApi.class.getSimpleName());
         run();
-        
     }
 }

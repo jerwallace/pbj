@@ -8,31 +8,36 @@ package stocktracker.api.protocol;
  *
  * @author WallaceJ
  */
-public class AdminProtocol extends AbstractProtocol {
+public class AdminProtocol extends AbstractProtocol
+{
 
-    private String menu = "1. Update Stock Price"+"\t"+"2. Print Stock"+"\t"+"2. Log out";
-    
+    private String menu = "1. Update Stock Price" + "\t" + "2. Print Stock" + "\t" + "2. Log out";
+
     @Override
-    public String getInstruction() {
-        switch (currentState) {
+    public String getInstruction()
+    {
+        switch (currentState)
+        {
             case LOGIN:
                 return "Login:";
             case SELECT_COMMAND:
                 return menu;
-            case UPDATE_STOCK: 
-                return "Which stock would you like to update?";
-            case UPDATE_STOCK_PRICE: 
-                return "What is the new price?";
-            case PRINT_STOCK: 
-                return "What is the new price?";
+            case UPDATE_STOCK:
+                return "Which stock would you like to update? (or type \"cancel\" to go back)";
+            case UPDATE_STOCK_PRICE:
+                return null;
+            case PRINT_STOCK:
+                return null;
             default:
                 return "Error determining state.";
         }
     }
 
     @Override
-    public void toggleStateByCommand(int input) throws InvalidCommandException {
-        switch (input) {
+    public void toggleStateByCommand(int input) throws InvalidCommandException
+    {
+        switch (input)
+        {
             case 1:
                 currentState = State.UPDATE_STOCK;
                 break;
@@ -46,5 +51,4 @@ public class AdminProtocol extends AbstractProtocol {
                 throw new InvalidCommandException();
         }
     }
-   
 }
