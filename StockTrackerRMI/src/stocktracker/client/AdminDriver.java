@@ -10,7 +10,7 @@ import stocktracker.api.AbstractApi;
  *
  * @author WallaceJ
  */
-public class AdminDriver extends ClientDriver {
+public class AdminDriver extends AbstractClient {
     
     public static void main(String[] args) throws Exception  {
         loadRegistry();

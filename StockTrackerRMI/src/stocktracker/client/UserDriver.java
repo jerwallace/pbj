@@ -10,7 +10,7 @@ import stocktracker.api.UserApi;
  *
  * @author WallaceJ
  */
-public class UserDriver extends ClientDriver {
+public class UserDriver extends AbstractClient {
     
     public static void main(String[] args) throws Exception  {
         loadRegistry();
