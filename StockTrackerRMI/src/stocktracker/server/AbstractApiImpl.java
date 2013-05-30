@@ -20,7 +20,6 @@ public abstract class AbstractApiImpl extends UnicastRemoteObject implements Abs
     protected User currentUser = null;
     protected Stock currentStock = null;
     protected UserList userList = new UserList();
-    protected StockList stockList = new StockList();
 
     public AbstractApiImpl() throws RemoteException
     {

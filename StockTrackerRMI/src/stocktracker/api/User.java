@@ -1,5 +1,7 @@
 package stocktracker.api;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,10 +17,10 @@ public class User
     private double balance;
     private Map<String, Integer> stocksOwned;
 
-    public User(String uName, double Balance)
+    public User(String uName, double balance)
     {
-        this.userName = uName;
-        this.balance = Balance;
+        setUserName(uName);
+        setBalance(balance);
         stocksOwned = new HashMap<>();
     }
 
@@ -29,14 +31,21 @@ public class User
 
     public void setUserName(String userName)
     {
+        
         this.userName = userName;
     }
 
     public double getBalance()
     {
+        
         return this.balance;
     }
-
+    
+    public String getBalanceString() {
+        DecimalFormat dec = new DecimalFormat("#.00 USD");
+        return dec.format(balance);
+    }
+    
     public void setBalance(double balance)
     {
         this.balance = balance;
@@ -49,7 +58,8 @@ public class User
 
     public String printStocksOwned()
     {
-        String mapString = "";
+        String mapString = "Stock Name" + "\t" + "Number of Stocks \n"; 
+        //+ "\t" + "Current Price " + "\t" + "Total Value";
         for (Map.Entry<String, Integer> entry : this.stocksOwned.entrySet())
         {
             mapString += entry.getKey() + "\t\t" + entry.getValue() + "\n";

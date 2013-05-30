@@ -37,7 +37,7 @@ public class UserProtocol extends AbstractProtocol
                 break;
             case 3:
                 currentAction = Stock_Action.QUERY_STOCK;
-                currentState = State.QUERY;
+                currentState = State.SELECT_STOCK;
                 break;
             case 4:
                 currentState = State.PRINT_STOCK;
@@ -62,7 +62,7 @@ public class UserProtocol extends AbstractProtocol
             case SELECT_STOCK:
                 return "Which stock would you like to trade? (or type \"cancel\" to go back)";
             case TRADE_STOCK_AMOUNT:
-                return "How many stocks would you like to trade?(or type \"cancel\" to go back)";
+                return "How many stocks would you like to trade? (or type \"cancel\" to go back)";
             case UPDATE_BALANCE:
                 return "Current balance:";
             case QUERY:

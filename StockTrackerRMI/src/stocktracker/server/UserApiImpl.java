@@ -24,7 +24,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
 //        stockList.updateStock(new Stock("GOOG", 120.0, 2300000));
 //        stockList.updateStock(new Stock("AAPL", 112.23, 9870000));
         userList.addUser("bahman").setBalance(10000);
-        userList.addUser("jeremy").setBalance(5000);
+        userList.addUser("jeremy").setBalance(500000);
         userList.addUser("peter").setBalance(0);
     }
 
@@ -58,7 +58,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
     @Override
     public boolean sellStock(int numStocks) throws RemoteException
     {
-
+       
         double totalSalePrice = numStocks * currentStock.getPrice();
         int numStocksOwned = currentUser.getStocksOwned().get(currentStock.getTickerName());
 
@@ -103,11 +103,11 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
                     thisProtocol.setCurrentState(State.SELECT_COMMAND);
                     if (userExists(input))
                     {
-                        return "User " + currentUser.getUserName() + " signed in.";
+                        return "User " + currentUser.getUserName() + " signed in. \n Balance: $"+currentUser.getBalanceString();
                     }
                     else
                     {
-                        return "User " + currentUser.getUserName() + " created.";
+                        return "User " + currentUser.getUserName() + " created.  \n Balance: $"+currentUser.getBalanceString();
                     }
                 case SELECT_COMMAND:
                     try
@@ -120,7 +120,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
                     }
                     break;
                 case SELECT_STOCK:
-                    currentStock = stockList.getStockByTickerName(input);
+                    currentStock = StockList.getInstance().getStockByTickerName(input);
                     if (currentStock == null)
                     {
                         return "Not a valid stock.";
@@ -135,7 +135,8 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
                         {
                             thisProtocol.setCurrentState(State.SELECT_COMMAND);
                         }
-                        return input + " Stock price is currently @: $" + currentStock.getPrice();
+                        return input + " Stock price is currently @: $" + currentStock.getPriceString() + 
+                               " \n Current Balance: $"+currentUser.getBalanceString();
                     }
                 case TRADE_STOCK_AMOUNT:
                     if (((UserProtocol) thisProtocol).getTradeFlag() == UserProtocol.Stock_Action.BUY_STOCK)
@@ -143,7 +144,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
                         if (buyStock(Integer.parseInt(input)))
                         {
                             thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                            return Integer.parseInt(input) + " " + currentStock.getTickerName() + " stocks purchased.";
+                            return Integer.parseInt(input) + " " + currentStock.getTickerName() + " stocks purchased. \n New Balance: $"+currentUser.getBalanceString();
                         }
                         else
                         {
@@ -155,7 +156,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
                         if (sellStock(Integer.parseInt(input)))
                         {
                             thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                            return Integer.parseInt(input) + " " + currentStock.getTickerName() + " stocks sold.";
+                            return Integer.parseInt(input) + " " + currentStock.getTickerName() + " stocks sold. \n New Balance: $"+currentUser.getBalanceString();
                         }
                         else
                         {
@@ -164,9 +165,9 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
                     }
                 case UPDATE_BALANCE:
                     thisProtocol.setCurrentState(State.SELECT_COMMAND);
-                    return currentUser.getBalance() + "";
+                    return currentUser.getBalanceString() + "";
                 case PRINT_STOCK:
-                    output = "Here is a list of all stocks you own:\n" + "Stock Name" + "\t" + "Number of Stocks\n";
+                    output = "Current Balance: $"+currentUser.getBalanceString()+" \n Here is a list of all stocks you own: \n";
                     thisProtocol.setCurrentState(State.SELECT_COMMAND);
                     return output + currentUser.printStocksOwned();
                 default:

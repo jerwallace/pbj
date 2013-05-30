@@ -4,6 +4,8 @@
  */
 package stocktracker.api;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author WallaceJ
@@ -15,7 +17,7 @@ public class Stock
     private double price;
     private int volume;
 
-    public Stock(String tickerName, double price, int volume)
+    public Stock(String tickerName, double price)
     {
         this.tickerName = tickerName;
         this.price = price;
@@ -46,6 +48,15 @@ public class Stock
         return price;
     }
 
+ /**
+     * @return the price
+     */
+    public String getPriceString()
+    {
+        DecimalFormat dec = new DecimalFormat("#.00 USD");
+        return dec.format(price);
+    }    
+    
     /**
      * @param price the price to set
      */

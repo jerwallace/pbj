@@ -11,8 +11,7 @@ import stocktracker.api.*;
  * @author Bahman
  */
 public class ServerDriver
-{
-            
+{ 
         private static final int PORT = 1099;
         
         private static Registry registry;
@@ -34,8 +33,10 @@ public class ServerDriver
             startRegistry();
             registerObject(UserApi.class.getSimpleName(), new UserApiImpl());
             registerObject(AbstractApi.class.getSimpleName(), new AdminApiImpl());
-            //Thread stockTrackerThread = new Thread(new StockTracker(myStockList));
-            //Thread.sleep(5 * 60 * 1000);
+            Thread stockTrackerThread = new Thread(new StockTracker());
+            stockTrackerThread.start();
+            stockTrackerThread.join();
+            
         }
         
 }

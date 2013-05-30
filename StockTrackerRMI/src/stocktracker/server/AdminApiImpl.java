@@ -66,22 +66,22 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
                     break;
                 case UPDATE_STOCK:
                     thisProtocol.setCurrentState(AbstractProtocol.State.UPDATE_STOCK_PRICE);
-                    currentStock = stockList.getStockByTickerName(input);
+                    currentStock = StockList.getInstance().getStockByTickerName(input);
                     currentUser.getStocksOwned().put(currentStock.getTickerName(), 1);
                     if (currentStock == null)
                     {
-                        stockList.updateStock(currentStock);
+                        StockList.getInstance().updateStock(currentStock);
                     }
                     break;
                 case UPDATE_STOCK_PRICE:
                     thisProtocol.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
                     currentStock.setPrice(Double.parseDouble(input));
-                    stockList.updateStock(currentStock);
+                    StockList.getInstance().updateStock(currentStock);
                     return currentStock.getTickerName() + " price has changed to: $" + Double.parseDouble(input) + ".";
                 case PRINT_STOCK:
-                    output = "Here is a list of all stocks you have updated:\n" + "Stock Name" + "\t" + "Stock Price\n";
+                    output = "Here is a list of all stocks you have updated:\n";
                     thisProtocol.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
-                    return output + currentUser.printStocksOwned();
+                    return output + StockList.getInstance();
                 default:
                     return "Error determining state.";
             }

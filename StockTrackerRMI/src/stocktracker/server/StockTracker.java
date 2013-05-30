@@ -1,23 +1,29 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package stocktracker.server;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import stocktracker.api.StockList;
 
 /**
  *
- * @author Bahman
+ * @author WallaceJ
  */
-public class StockTracker implements Runnable
-{
-
-    private StockList myStockList;
-
-    public StockTracker(StockList stocklist)
-    {
-        this.myStockList = stocklist;
-    }
+public class StockTracker implements Runnable {
 
     @Override
-    public void run()
-    {
+    public void run() {
+        while (true) {
+            try {
+                OnlineStockInfo.updateStocks();
+                Thread.sleep(20000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(StockTracker.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
+    
 }
