@@ -5,7 +5,7 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
+import static stocktracker.api.protocol.AbstractProtocol.State;
 /**
  *
  * @author Bahman
@@ -16,6 +16,7 @@ public class User
     private String userName;
     private double balance;
     private Map<String, Integer> stocksOwned;
+    private State currentState;
 
     public User(String uName, double balance)
     {

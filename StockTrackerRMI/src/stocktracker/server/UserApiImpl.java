@@ -4,11 +4,9 @@ package stocktracker.server;
  *
  * @author WallaceJ
  */
-import stocktracker.api.protocol.UserProtocol;
 import java.rmi.*;
 import stocktracker.api.*;
-import stocktracker.api.protocol.InvalidCommandException;
-
+import stocktracker.api.protocol.*;
 import static stocktracker.api.protocol.AbstractProtocol.State;
 
 public class UserApiImpl extends AbstractApiImpl implements UserApi
@@ -20,16 +18,11 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
     {
         super();
         thisProtocol = new UserProtocol();
-//        stockList.updateStock(new Stock("BBRY", 14.56, 13000000));
-//        stockList.updateStock(new Stock("GOOG", 120.0, 2300000));
-//        stockList.updateStock(new Stock("AAPL", 112.23, 9870000));
-        userList.addUser("bahman").setBalance(10000);
-        userList.addUser("jeremy").setBalance(500000);
-        userList.addUser("peter").setBalance(0);
+        
     }
 
     @Override
-    public boolean buyStock(int numStocks) throws RemoteException
+    public synchronized boolean buyStock(int numStocks) throws RemoteException
     {
 
         double totalCost = numStocks * currentStock.getPrice();
@@ -49,14 +42,18 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         }
         else
         {
-            currentUser.setBalance((currentUser.getBalance() - totalCost));
-            currentUser.getStocksOwned().put(currentStock.getTickerName(), numStocksOwned + numStocks);
+            if (StockList.getInstance().getStockByTickerName(currentStock.getTickerName()).getVolume()>numStocks) {
+                currentUser.setBalance((currentUser.getBalance() - totalCost));
+                currentUser.getStocksOwned().put(currentStock.getTickerName(), numStocksOwned + numStocks);
+            } else {
+                return false;
+            }
             return true;
         }
     }
 
     @Override
-    public boolean sellStock(int numStocks) throws RemoteException
+    public synchronized boolean sellStock(int numStocks) throws RemoteException
     {
        
         double totalSalePrice = numStocks * currentStock.getPrice();
