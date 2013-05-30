@@ -19,7 +19,7 @@ public class Stock
     {
         this.tickerName = tickerName;
         this.price = price;
-        this.volume = volume;
+        this.volume = 1000;
     }
 
     /**
