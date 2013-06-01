@@ -22,8 +22,8 @@ public abstract class Session {
     
     private static AbstractApi remoteApi;
     
-    protected static final String HOST = "localhost";
-    protected static final int PORT = 1099;
+    private static String host = "localhost";
+    private static int port = 1099;
     protected static Registry registry;
     
          /**
@@ -83,6 +83,34 @@ public abstract class Session {
     }
     
         public static void loadRegistry() throws RemoteException {
-            registry = LocateRegistry.getRegistry(HOST, PORT);
+            registry = LocateRegistry.getRegistry(getHost(), getPort());
        }
+        
+        /**
+     * @return the host
+     */
+    public static String getHost() {
+        return host;
+    }
+
+    /**
+     * @param aHost the host to set
+     */
+    public static void setHost(String aHost) {
+        host = aHost;
+    }
+
+    /**
+     * @return the port
+     */
+    public static int getPort() {
+        return port;
+    }
+
+    /**
+     * @param aPort the port to set
+     */
+    public static void setPort(int aPort) {
+        port = aPort;
+    }
 }
