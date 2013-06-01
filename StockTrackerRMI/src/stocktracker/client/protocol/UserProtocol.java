@@ -107,7 +107,7 @@ public class UserProtocol extends AbstractProtocol
                     }
                     
                     currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
-                    return "User " + thisSession.getUsername() + " "+action+". \n Balance: $"+currentUser.getBalanceString();
+                    return "User " + thisSession.getUsername() + " "+action+". \nBalance: "+currentUser.getBalanceString();
                     
                 case SELECT_COMMAND:
                     try
@@ -132,15 +132,15 @@ public class UserProtocol extends AbstractProtocol
 
                     if (thisSession.getCurrentAction() == UserProtocol.Stock_Action.BUY_STOCK)
                     {
-                        ((UserApi)thisSession.getRemoteApi()).buyStock(thisSession.getSelectedStockName(), thisSession.getUsername(), numStocks);
+                        double newBalance = ((UserApi)thisSession.getRemoteApi()).buyStock(thisSession.getSelectedStockName(), thisSession.getUsername(), numStocks);
                         thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
-                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks purchased. \n New Balance: $"+currentUser.getBalanceString();
+                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks purchased. \n New Balance: $"+newBalance;
                     }
                     else if (thisSession.getCurrentAction() == UserProtocol.Stock_Action.SELL_STOCK)
                     {
-                        ((UserApi)thisSession.getRemoteApi()).sellStock(thisSession.getSelectedStockName(), thisSession.getUsername(), numStocks);
+                        double newBalance = ((UserApi)thisSession.getRemoteApi()).sellStock(thisSession.getSelectedStockName(), thisSession.getUsername(), numStocks);
                         thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
-                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks sold. \n New Balance: $"+currentUser.getBalanceString();
+                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks sold. \n New Balance: $"+newBalance;
                     }
                 case UPDATE_BALANCE:
                     thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);

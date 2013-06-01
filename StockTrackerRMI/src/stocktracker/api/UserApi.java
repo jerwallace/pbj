@@ -18,8 +18,9 @@ public interface UserApi extends AbstractApi
      * @param username
      * @param numStocks  <p/>
      * @throws RemoteException
+     * @return The new balance of the user.
      */
-    public void buyStock(String tickerName, String username, int numStocks) throws RemoteException;
+    public double buyStock(String tickerName, String username, int numStocks) throws RemoteException;
 
     /**
      * Public method that is invoked by User client that is identified by
@@ -30,6 +31,7 @@ public interface UserApi extends AbstractApi
      * @param username
      * @param numStocks  <p/>
      * @throws RemoteException
+     * @return The new balance of the user.
      */
-    public void sellStock(String tickerName, String username, int numStocks) throws RemoteException;
+    public double sellStock(String tickerName, String username, int numStocks) throws RemoteException;
 }

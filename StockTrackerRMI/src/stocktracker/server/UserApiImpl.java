@@ -25,12 +25,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
     public UserApiImpl() throws RemoteException
     {
         super();
-//        stockList.updateStock(new Stock("BBRY", 14.56, 13000000));
-//        stockList.updateStock(new Stock("GOOG", 120.0, 2300000));
-//        stockList.updateStock(new Stock("AAPL", 112.23, 9870000));
-        UserList.getInstance().addUser("bahman").setBalance(10000);
-        UserList.getInstance().addUser("jeremy").setBalance(500000);
-        UserList.getInstance().addUser("peter").setBalance(0);
+
     }
 
     /**
@@ -42,7 +37,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
      * @throws RemoteException
      */
     @Override
-    public synchronized void buyStock(String tickerName, String username, int numStocks) throws RemoteException
+    public synchronized double buyStock(String tickerName, String username, int numStocks) throws RemoteException
     {
         Stock currentStock = StockList.getInstance().getStockByTickerName(tickerName);
         User currentUser = UserList.getInstance().getUser(username);
@@ -58,11 +53,13 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         {
             throw new CustomException(ErrorType.UNAVAILABLE_STOCK_VOLUME);
         }
-        else
-        {
+        else if (numStocks < 0) {
+            throw new CustomException(ErrorType.NEGATIVE_VOLUME);
+        } else {
             UserList.getInstance().getUser(username).setBalance((currentUser.getBalance() - totalCost));
             UserList.getInstance().getUser(username).updateUserStock(currentStock.getTickerName(), numStocksOwned + numStocks);
             StockList.getInstance().getStockByTickerName(currentStock.getTickerName()).decreaseVolume(numStocks);
+            return (UserList.getInstance().getUser(username).getBalance());
         }
     }
 
@@ -75,7 +72,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
      * @throws RemoteException
      */
     @Override
-    public synchronized void sellStock(String tickerName, String username, int numStocks) throws RemoteException
+    public synchronized double sellStock(String tickerName, String username, int numStocks) throws RemoteException
     {
         Stock currentStock = StockList.getInstance().getStockByTickerName(tickerName);
         User currentUser = UserList.getInstance().getUser(username);
@@ -86,8 +83,9 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         if (numStocksOwned < numStocks)
         {
             throw new CustomException(ErrorType.STOCKS_NOT_AVAILABLE);
-        }
-        else
+        } if (numStocks < 0) {
+            throw new CustomException(ErrorType.NEGATIVE_VOLUME);
+        } else
         {
             
             StockList.getInstance().getStockByTickerName(currentStock.getTickerName()).increaseVolume(numStocks);
@@ -97,11 +95,12 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
             {
                 UserList.getInstance().getUser(username).removeUserStock(currentStock.getTickerName());
             }
-            else
+            else 
             {
                 // Overwrite the current stock.
                 UserList.getInstance().getUser(username).updateUserStock(currentStock.getTickerName(), (numStocksOwned - numStocks));
             }
+            return (UserList.getInstance().getUser(username).getBalance());
         }
     }
 }

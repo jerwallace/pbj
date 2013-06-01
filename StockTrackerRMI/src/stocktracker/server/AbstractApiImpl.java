@@ -7,7 +7,6 @@ package stocktracker.server;
 import java.rmi.*;
 import java.rmi.server.*;
 import stocktracker.api.*;
-import stocktracker.client.protocol.AbstractProtocol;
 import stocktracker.client.protocol.CustomException;
 import stocktracker.client.protocol.CustomException.ErrorType;
 
@@ -41,11 +40,13 @@ public abstract class AbstractApiImpl extends UnicastRemoteObject implements Abs
 
     }
     
+    @Override
     public User getUser(String username) throws RemoteException {
         System.out.println("test");
         return UserList.getInstance().getUser(username);
     }
     
+    @Override
     public String selectStock(String tickerName) throws RemoteException {
         Stock currentStock = StockList.getInstance().getStockByTickerName(tickerName);
         
