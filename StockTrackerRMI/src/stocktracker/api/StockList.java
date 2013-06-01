@@ -33,7 +33,7 @@ public class StockList
 
             synchronized (StockList.class)
             {
-
+                
                 StockList inst = currentStockList;
 
                 if (inst == null)
@@ -133,7 +133,7 @@ public class StockList
     {
         return this.stocksTable.size();
     }
-
+    
     /**
      * Public method that returns a string containing the tickerName of all the
      * stocks that are being tracked
