@@ -6,7 +6,6 @@ package stocktracker.api;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import stocktracker.api.protocol.AbstractProtocol.State;
 
 /**
  *
