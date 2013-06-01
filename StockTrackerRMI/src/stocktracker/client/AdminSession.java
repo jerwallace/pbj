@@ -4,11 +4,13 @@
  */
 package stocktracker.client;
 
+import java.io.Serializable;
+
 /**
  *
  * @author WallaceJ
  */
-public class AdminSession extends Session {
+public class AdminSession extends Session implements Serializable {
     
     private static AdminSession adminSession = null;
 

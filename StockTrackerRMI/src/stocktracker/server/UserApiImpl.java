@@ -4,15 +4,11 @@ package stocktracker.server;
  *
  * @author WallaceJ
  */
-import stocktracker.client.protocol.UserProtocol;
+
 import java.rmi.*;
 import stocktracker.api.*;
-import stocktracker.client.protocol.InvalidCommandException;
-
-import static stocktracker.client.protocol.AbstractProtocol.State;
 import stocktracker.client.protocol.CustomException;
 import stocktracker.client.protocol.CustomException.ErrorType;
-import static stocktracker.client.protocol.CustomException.ErrorType.UNAVAILABLE_STOCK_VOLUME;
 
 public class UserApiImpl extends AbstractApiImpl implements UserApi
 {

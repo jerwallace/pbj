@@ -4,6 +4,7 @@
  */
 package stocktracker.client;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -14,13 +15,13 @@ import stocktracker.client.protocol.AbstractProtocol.State;
  *
  * @author WallaceJ
  */
-public abstract class Session {
+public abstract class Session implements Serializable {
     
     private String username = "";
     private String selectedStockName = "";
     private State currentState = State.LOGIN;
     
-    private static AbstractApi remoteApi;
+    public static AbstractApi remoteApi;
     
     protected static final String HOST = "localhost";
     protected static final int PORT = 1099;

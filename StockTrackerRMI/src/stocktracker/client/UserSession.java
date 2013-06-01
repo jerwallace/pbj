@@ -4,13 +4,14 @@
  */
 package stocktracker.client;
 
+import java.io.Serializable;
 import stocktracker.client.protocol.UserProtocol.Stock_Action;
 
 /**
  *
  * @author WallaceJ
  */
-public class UserSession extends Session {
+public class UserSession extends Session implements Serializable {
     
     private Stock_Action currentAction = Stock_Action.QUERY_STOCK;
     

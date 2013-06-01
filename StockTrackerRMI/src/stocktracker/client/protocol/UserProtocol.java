@@ -106,7 +106,7 @@ public class UserProtocol extends AbstractProtocol
                         action = "created";
                     }
                     
-                    currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
+                    currentUser = UserSession.remoteApi.getUser(thisSession.getUsername());
                     return "User " + thisSession.getUsername() + " "+action+". \n Balance: $"+currentUser.getBalanceString();
                     
                 case SELECT_COMMAND:
