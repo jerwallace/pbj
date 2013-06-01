@@ -4,17 +4,24 @@ package stocktracker.server;
  *
  * @author WallaceJ
  */
-
 import java.rmi.*;
 import stocktracker.api.*;
 import stocktracker.client.protocol.CustomException;
 import stocktracker.client.protocol.CustomException.ErrorType;
 
+/**
+ *
+ * @author Bahman
+ */
 public class UserApiImpl extends AbstractApiImpl implements UserApi
 {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     *
+     * @throws RemoteException
+     */
     public UserApiImpl() throws RemoteException
     {
         super();
@@ -26,12 +33,20 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         UserList.getInstance().addUser("peter").setBalance(0);
     }
 
+    /**
+     *
+     * @param tickerName
+     * @param username
+     * @param numStocks
+     * <p/>
+     * @throws RemoteException
+     */
     @Override
     public synchronized void buyStock(String tickerName, String username, int numStocks) throws RemoteException
     {
         Stock currentStock = StockList.getInstance().getStockByTickerName(tickerName);
         User currentUser = UserList.getInstance().getUser(username);
-        
+
         double totalCost = numStocks * currentStock.getPrice();
         int numStocksOwned = currentUser.numStocksOwned(tickerName);
 
@@ -39,20 +54,31 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         {
             throw new CustomException(ErrorType.INSUFFICIENT_FUNDS);
         }
-        else if (currentStock.getVolume()<numStocks) {
+        else if (currentStock.getVolume() < numStocks)
+        {
             throw new CustomException(ErrorType.UNAVAILABLE_STOCK_VOLUME);
-        } else {
+        }
+        else
+        {
             UserList.getInstance().getUser(username).setBalance((currentUser.getBalance() - totalCost));
             UserList.getInstance().getUser(username).updateUserStock(currentStock.getTickerName(), numStocksOwned + numStocks);
         }
     }
 
+    /**
+     *
+     * @param tickerName
+     * @param username
+     * @param numStocks
+     * <p/>
+     * @throws RemoteException
+     */
     @Override
     public synchronized void sellStock(String tickerName, String username, int numStocks) throws RemoteException
     {
         Stock currentStock = StockList.getInstance().getStockByTickerName(tickerName);
         User currentUser = UserList.getInstance().getUser(username);
-        
+
         double totalSalePrice = numStocks * currentStock.getPrice();
         int numStocksOwned = currentUser.getStocksOwned().get(currentStock.getTickerName());
 
@@ -76,6 +102,4 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
             }
         }
     }
-
- 
 }

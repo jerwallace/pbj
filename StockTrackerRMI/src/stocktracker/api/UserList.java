@@ -1,52 +1,69 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package stocktracker.api;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
- * @author Bahman
+ * Class describing the Singleton UserList
  */
 public class UserList
 {
 
+    //Map containing "key=userName" &  "value=User Object"
     private Map<String, User> userList;
     private static UserList currentUserList;
 
+    /**
+     * Singleton class constructor
+     */
     protected UserList()
     {
         this.userList = new HashMap<>();
     }
 
-    public static UserList getInstance() {
-		
-		if (currentUserList == null) {
+    /**
+     * Returns the only userList instance object
+     */
+    public static UserList getInstance()
+    {
 
-			synchronized(UserList.class) {
+        if (currentUserList == null)
+        {
+            synchronized (UserList.class)
+            {
 
-				UserList inst = currentUserList;
+                UserList inst = currentUserList;
 
-				if (inst == null) {
+                if (inst == null)
+                {
 
-					synchronized(UserList.class) {
-						currentUserList = new UserList();
-					}
-				}
-			}
-		}
-                
-		return currentUserList;
+                    synchronized (UserList.class)
+                    {
+                        currentUserList = new UserList();
+                    }
+                }
+            }
+        }
+
+        return currentUserList;
     }
-    
+
+    /**
+     *
+     * @param username <p/>
+     * @return
+     */
     public User getUser(String username)
     {
         return userList.get(username);
     }
 
+    /**
+     * Public method that adds User object to userList using their userName
+     * <p/>
+     * @param userName <p/>
+     * @return - User object
+     */
     public User addUser(String userName)
     {
         User newUser = new User(userName, 1000);
@@ -54,9 +71,14 @@ public class UserList
         return newUser;
     }
 
+    /**
+     * Public method that removes a User object referenced by userName from the
+     * userList
+     * <p/>
+     * @param userName
+     */
     public void removeUser(String userName)
     {
         userList.remove(userName);
     }
-    
 }
