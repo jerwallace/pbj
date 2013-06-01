@@ -12,70 +12,98 @@ import stocktracker.client.protocol.AbstractProtocol;
 import stocktracker.client.protocol.CustomException;
 
 /**
- *
- * @author WallaceJ
+ * Abstract Client class
  */
-public abstract class AbstractClient {
+public abstract class AbstractClient
+{
+    //Setting up connection parameters
 
-        protected static final String HOST = "localhost";
-        protected static final int PORT = 1099;
-        protected static Registry registry;
-        protected static AbstractProtocol thisProtocol;
-        
-        public static void run() throws Exception {
+    protected static final String HOST = "localhost";
+    protected static final int PORT = 1099;
+    protected static Registry registry;
+    protected static AbstractProtocol thisProtocol;
+
+    /**
+     * Public method that runs the Abstract Client protocol
+     * <p/>
+     * @throws Exception
+     */
+    public static void run() throws Exception
+    {
 
         Scanner input = new Scanner(System.in);
         String inputString = "";
 
-        while (!inputString.equalsIgnoreCase("Exit")) {
-            
+        //While User hasn't passed Exit message by chosing to Log Out do the following
+        while (!inputString.equalsIgnoreCase("Exit"))
+        {
+
+            //Get next instruction based on the current state of the current user of the given type using the its protocol
             String nextInstruction = thisProtocol.getInstruction(UserSession.getInstance().getCurrentState());
-            
-            if (nextInstruction != null) {
+
+            if (nextInstruction != null)
+            {
                 System.out.println(nextInstruction);
                 inputString = input.nextLine();
             }
-            try {
-               String serverOutput = thisProtocol.processInput(inputString);
-               if (serverOutput != null) {
-                    System.out.println(serverOutput);    
-               }
-            } catch (NumberFormatException nfex) {
-               System.err.println("Please enter a valid postive number."); 
-            } catch (CustomException ex) {
-               System.err.println(ex);  
-            } 
-            
+            try
+            {
+                String serverOutput = thisProtocol.processInput(inputString);
+                if (serverOutput != null)
+                {
+                    System.out.println(serverOutput);
+                }
+            }
+            catch (NumberFormatException nfex)
+            {
+                System.err.println("Please enter a valid postive number.");
+            }
+            catch (CustomException ex)
+            {
+                System.err.println(ex);
+            }
+
         }
     }
-    
-    public static void connectToServer() throws Exception {
+
+    /**
+     * Public method that attempts to connect to Server using the entered Host
+     * Name or IP address and Port Number
+     */
+    public static void connectToServer()
+    {
         String validServerRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
         Scanner input = new Scanner(System.in);
         String inputString = "";
-        
+
         boolean isValidServer = false;
-        
-        while (!isValidServer) {
-            
+
+        while (!isValidServer)
+        {
+
             System.out.println("Please enter a valid PBJ Stock Exchange server address (default: localhost):");
             inputString = input.nextLine();
-            
-            if (inputString.isEmpty()) {
+
+            if (inputString.isEmpty())
+            {
                 isValidServer = true;
-            } else {
+            }
+            else
+            {
                 Pattern rPattern = Pattern.compile(validServerRegex);
                 Matcher matcher = rPattern.matcher(inputString);
 
-                if (matcher.find()) {
-                    System.out.println("Connecting to "+inputString+"..."); 
+                if (matcher.find())
+                {
+                    System.out.println("Connecting to " + inputString + "...");
                     UserSession.setHost(inputString);
                     isValidServer = true;
-                } else {
-                    System.err.println("Invalid hostname or IP address."); 
+                }
+                else
+                {
+                    System.err.println("Invalid hostname or IP address.");
                 }
             }
         }
     }
-        
 }

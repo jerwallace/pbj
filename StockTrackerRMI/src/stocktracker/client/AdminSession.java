@@ -1,34 +1,38 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package stocktracker.client;
 
 import java.io.Serializable;
 
 /**
- *
- * @author WallaceJ
+ * Class definition for the Singleton Admin type client session
  */
-public class AdminSession extends Session implements Serializable {
-    
+public class AdminSession extends Session implements Serializable
+{
+
     private static AdminSession adminSession = null;
 
-    protected AdminSession() {
-        
+    protected AdminSession()
+    {
     }
-    
-    public static AdminSession getInstance() {
 
-        if (adminSession == null) {
+    /**
+     * Default constructor for the singleton instance of the UserSession
+     */
+    public static AdminSession getInstance()
+    {
 
-            synchronized (UserSession.class) {
+        if (adminSession == null)
+        {
+
+            synchronized (UserSession.class)
+            {
 
                 AdminSession inst = adminSession;
 
-                if (inst == null) {
+                if (inst == null)
+                {
 
-                    synchronized (AdminSession.class) {
+                    synchronized (AdminSession.class)
+                    {
                         adminSession = new AdminSession();
                     }
                 }
