@@ -19,7 +19,6 @@ public abstract class AbstractApiImpl extends UnicastRemoteObject implements Abs
     protected AbstractProtocol thisProtocol;
     protected User currentUser = null;
     protected Stock currentStock = null;
-    protected UserList userList = new UserList();
 
     public AbstractApiImpl() throws RemoteException
     {
@@ -39,11 +38,11 @@ public abstract class AbstractApiImpl extends UnicastRemoteObject implements Abs
     public boolean userExists(String username) throws RemoteException
     {
 
-        currentUser = userList.getUser(username);
+        currentUser = UserList.getInstance().getUser(username);
 
         if (currentUser == null)
         {
-            currentUser = userList.addUser(username);
+            currentUser = UserList.getInstance().addUser(username);
             return false;
         }
         else

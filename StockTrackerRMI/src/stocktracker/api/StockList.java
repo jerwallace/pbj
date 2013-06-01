@@ -8,6 +8,20 @@ import stocktracker.server.OnlineStockInfo;
 public class StockList
 {
 
+    /**
+     * @return the currentStockList
+     */
+    public static StockList getCurrentStockList() {
+        return currentStockList;
+    }
+
+    /**
+     * @param aCurrentStockList the currentStockList to set
+     */
+    public static void setCurrentStockList(StockList aCurrentStockList) {
+        currentStockList = aCurrentStockList;
+    }
+
     private Map<String, Stock> stocksTable;
     private Time timeStamp;
     private static StockList currentStockList = null;
@@ -19,22 +33,22 @@ public class StockList
 
     public static StockList getInstance() {
 		
-		if (currentStockList == null) {
+		if (getCurrentStockList() == null) {
 
 			synchronized(StockList.class) {
 
-				StockList inst = currentStockList;
+				StockList inst = getCurrentStockList();
 
 				if (inst == null) {
 
 					synchronized(StockList.class) {
-						currentStockList = new StockList();
+						setCurrentStockList(new StockList());
 					}
 				}
 			}
 		}
                 
-		return currentStockList;
+		return getCurrentStockList();
     }
     
     public Time getTimeStamp()

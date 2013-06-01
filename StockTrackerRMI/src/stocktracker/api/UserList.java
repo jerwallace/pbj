@@ -15,12 +15,33 @@ public class UserList
 {
 
     private Map<String, User> userList;
+    private static UserList currentUserList;
 
-    public UserList()
+    protected UserList()
     {
         this.userList = new HashMap<>();
     }
 
+    public static UserList getInstance() {
+		
+		if (currentUserList == null) {
+
+			synchronized(UserList.class) {
+
+				UserList inst = currentUserList;
+
+				if (inst == null) {
+
+					synchronized(UserList.class) {
+						currentUserList = new UserList();
+					}
+				}
+			}
+		}
+                
+		return currentUserList;
+    }
+    
     public User getUser(String username)
     {
         return userList.get(username);

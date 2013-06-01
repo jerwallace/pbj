@@ -4,6 +4,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
+import java.rmi.server.RemoteServer;
 import stocktracker.api.*;
 
 /**
@@ -33,6 +34,7 @@ public class ServerDriver
             startRegistry();
             registerObject(UserApi.class.getSimpleName(), new UserApiImpl());
             registerObject(AbstractApi.class.getSimpleName(), new AdminApiImpl());
+            
             Thread stockTrackerThread = new Thread(new StockTracker());
             stockTrackerThread.start();
             stockTrackerThread.join();

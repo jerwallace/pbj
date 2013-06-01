@@ -23,9 +23,9 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
 //        stockList.updateStock(new Stock("BBRY", 14.56, 13000000));
 //        stockList.updateStock(new Stock("GOOG", 120.0, 2300000));
 //        stockList.updateStock(new Stock("AAPL", 112.23, 9870000));
-        userList.addUser("bahman").setBalance(10000);
-        userList.addUser("jeremy").setBalance(500000);
-        userList.addUser("peter").setBalance(0);
+        UserList.getInstance().addUser("bahman").setBalance(10000);
+        UserList.getInstance().addUser("jeremy").setBalance(500000);
+        UserList.getInstance().addUser("peter").setBalance(0);
     }
 
     @Override

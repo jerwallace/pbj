@@ -15,6 +15,7 @@ public class UserDriver extends AbstractClient {
     public static void main(String[] args) throws Exception  {
         loadRegistry();
         remoteApi = (UserApi) registry.lookup(UserApi.class.getSimpleName());
+
         run();
     }
 }

@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import stocktracker.api.protocol.AbstractProtocol.State;
 
 /**
  *
@@ -12,16 +13,17 @@ import java.util.Set;
  */
 public class User
 {
-
     private String userName;
     private double balance;
     private Map<String, Integer> stocksOwned;
+    private State currentState;
 
     public User(String uName, double balance)
     {
         setUserName(uName);
         setBalance(balance);
         stocksOwned = new HashMap<>();
+        currentState = State.LOGIN;
     }
 
     public String getUserName()
@@ -65,5 +67,19 @@ public class User
             mapString += entry.getKey() + "\t\t" + entry.getValue() + "\n";
         }
         return mapString;
+    }
+
+    /**
+     * @return the currentState
+     */
+    public State getCurrentState() {
+        return this.currentState;
+    }
+
+    /**
+     * @param currentState the currentState to set
+     */
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
     }
 }

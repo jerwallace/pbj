@@ -25,9 +25,9 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
     {
         super();
         thisProtocol = new AdminProtocol();
-        userList.addUser("bahman");
-        userList.addUser("jeremy");
-        userList.addUser("peter");
+        UserList.getInstance().addUser("bahman");
+        UserList.getInstance().addUser("jeremy");
+        UserList.getInstance().addUser("peter");
     }
 
     @Override
