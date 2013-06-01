@@ -1,17 +1,15 @@
 package stocktracker.api;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import stocktracker.client.protocol.AbstractProtocol.State;
 
 /**
  *
  * @author Bahman
  */
-public class User
+public class User implements Serializable
 {
     private String userName;
     private double balance;

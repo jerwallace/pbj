@@ -106,7 +106,7 @@ public class UserProtocol extends AbstractProtocol
                         action = "created";
                     }
                     
-                    currentUser = UserSession.remoteApi.getUser(thisSession.getUsername());
+                    currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
                     return "User " + thisSession.getUsername() + " "+action+". \n Balance: $"+currentUser.getBalanceString();
                     
                 case SELECT_COMMAND:
@@ -121,6 +121,10 @@ public class UserProtocol extends AbstractProtocol
                     break;
                 case SELECT_STOCK:
                     thisSession.setSelectedStockName(input);
+                    if (thisSession.getCurrentAction() != UserProtocol.Stock_Action.QUERY_STOCK)
+                    {
+                        thisSession.setCurrentState(State.TRADE_STOCK_AMOUNT);
+                    }
                     return thisSession.getRemoteApi().selectStock(thisSession.getSelectedStockName())+" \nCurrent Balance: "+thisSession.getRemoteApi().getUser(thisSession.getUsername()).getBalanceString();
                 case TRADE_STOCK_AMOUNT:
                     currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());

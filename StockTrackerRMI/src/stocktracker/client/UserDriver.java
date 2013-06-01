@@ -4,15 +4,8 @@
  */
 package stocktracker.client;
 
-import java.rmi.RemoteException;
-import stocktracker.api.StockList;
-import stocktracker.api.User;
 import stocktracker.api.UserApi;
-import stocktracker.client.protocol.AbstractProtocol;
-import stocktracker.client.protocol.InvalidCommandException;
 import stocktracker.client.protocol.UserProtocol;
-import stocktracker.client.protocol.AbstractProtocol.State;
-import stocktracker.client.protocol.CustomException;
 
 /**
  *

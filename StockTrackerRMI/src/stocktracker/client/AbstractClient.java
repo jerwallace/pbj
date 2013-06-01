@@ -4,6 +4,7 @@
  */
 package stocktracker.client;
 
+import java.rmi.registry.Registry;
 import java.util.Scanner;
 import stocktracker.client.protocol.AbstractProtocol;
 import stocktracker.client.protocol.CustomException;
@@ -13,7 +14,10 @@ import stocktracker.client.protocol.CustomException;
  * @author WallaceJ
  */
 public abstract class AbstractClient {
-    
+
+        protected static final String HOST = "localhost";
+        protected static final int PORT = 1099;
+        protected static Registry registry;
         protected static AbstractProtocol thisProtocol;
         
         public static void run() throws Exception {

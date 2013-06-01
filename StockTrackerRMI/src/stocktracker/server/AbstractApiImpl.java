@@ -42,6 +42,7 @@ public abstract class AbstractApiImpl extends UnicastRemoteObject implements Abs
     }
     
     public User getUser(String username) throws RemoteException {
+        System.out.println("test");
         return UserList.getInstance().getUser(username);
     }
     
