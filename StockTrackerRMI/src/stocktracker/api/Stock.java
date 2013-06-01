@@ -108,4 +108,20 @@ public class Stock
     {
         this.volume = volume;
     }
+    
+    /**
+     * Public method decreases the volume for this Stock
+     * @param decreaseValue The amount of stocks to decrease.
+     */
+    public void decreaseVolume(int decreaseValue) {
+        this.volume = this.volume - decreaseValue;
+    }
+    
+    /**
+     * Public method increases the volume for this Stock
+     * @param increaseValue The amount of stocks to increase.
+     */
+    public void increaseVolume(int increaseValue) {
+        this.volume = this.volume + increaseValue;
+    }
 }

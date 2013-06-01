@@ -62,6 +62,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         {
             UserList.getInstance().getUser(username).setBalance((currentUser.getBalance() - totalCost));
             UserList.getInstance().getUser(username).updateUserStock(currentStock.getTickerName(), numStocksOwned + numStocks);
+            StockList.getInstance().getStockByTickerName(currentStock.getTickerName()).decreaseVolume(numStocks);
         }
     }
 
@@ -88,7 +89,8 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         }
         else
         {
-
+            
+            StockList.getInstance().getStockByTickerName(currentStock.getTickerName()).increaseVolume(numStocks);
             UserList.getInstance().getUser(username).setBalance((currentUser.getBalance() + totalSalePrice));
 
             if (numStocksOwned == numStocks)
