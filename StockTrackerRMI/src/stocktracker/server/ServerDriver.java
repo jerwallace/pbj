@@ -4,7 +4,6 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import java.rmi.server.RemoteServer;
 import stocktracker.api.*;
 
 /**
@@ -27,6 +26,7 @@ public class ServerDriver
             registry.bind(name, remoteUserObj);
             System.out.println("Registered: " + name + " -> " +
                 remoteUserObj.getClass().getName() + "[" + remoteUserObj + "]");
+            
         }
    
         public static void main(String[] args) throws Exception {

@@ -4,9 +4,11 @@ package stocktracker.server;
  *
  * @author WallaceJ
  */
+import stocktracker.api.protocol.UserProtocol;
 import java.rmi.*;
 import stocktracker.api.*;
-import stocktracker.api.protocol.*;
+import stocktracker.api.protocol.InvalidCommandException;
+
 import static stocktracker.api.protocol.AbstractProtocol.State;
 
 public class UserApiImpl extends AbstractApiImpl implements UserApi
@@ -27,7 +29,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
     }
 
     @Override
-    public synchronized boolean buyStock(int numStocks) throws RemoteException
+    public boolean buyStock(int numStocks) throws RemoteException
     {
 
         double totalCost = numStocks * currentStock.getPrice();
@@ -47,18 +49,14 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         }
         else
         {
-            if (StockList.getInstance().getStockByTickerName(currentStock.getTickerName()).getVolume()>numStocks) {
-                currentUser.setBalance((currentUser.getBalance() - totalCost));
-                currentUser.getStocksOwned().put(currentStock.getTickerName(), numStocksOwned + numStocks);
-            } else {
-                return false;
-            }
+            currentUser.setBalance((currentUser.getBalance() - totalCost));
+            currentUser.getStocksOwned().put(currentStock.getTickerName(), numStocksOwned + numStocks);
             return true;
         }
     }
 
     @Override
-    public synchronized boolean sellStock(int numStocks) throws RemoteException
+    public boolean sellStock(int numStocks) throws RemoteException
     {
        
         double totalSalePrice = numStocks * currentStock.getPrice();

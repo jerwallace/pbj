@@ -15,10 +15,10 @@ public abstract class AbstractProtocol
 
     public enum State
     {
+
         LOGIN, SELECT_COMMAND, UPDATE_BALANCE, PRINT_STOCK, QUERY, NUM_COMMAND,
         UPDATE_STOCK, UPDATE_STOCK_PRICE, SELECT_STOCK, TRADE_STOCK_AMOUNT
     }
-    
     protected State currentState = State.LOGIN;
     protected ArrayList<String> messages = new ArrayList<String>();
 

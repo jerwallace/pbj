@@ -29,7 +29,7 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
         UserList.getInstance().addUser("jeremy");
         UserList.getInstance().addUser("peter");
     }
-    
+
     @Override
     public String processInput(String input) throws RemoteException
     {
