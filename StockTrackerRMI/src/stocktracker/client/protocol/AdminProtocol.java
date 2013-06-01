@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package stocktracker.api.protocol;
+package stocktracker.client.protocol;
 
 /**
  *
@@ -14,7 +14,7 @@ public class AdminProtocol extends AbstractProtocol
     private String menu = "1. Update Stock Price" + "\t" + "2. Print Stock" + "\t" + "2. Log out";
 
     @Override
-    public String getInstruction()
+    public String getInstruction(State currentState)
     {
         switch (currentState)
         {
@@ -39,13 +39,13 @@ public class AdminProtocol extends AbstractProtocol
         switch (input)
         {
             case 1:
-                currentState = State.UPDATE_STOCK;
+                setCurrentState(State.UPDATE_STOCK);
                 break;
             case 2:
-                currentState = State.PRINT_STOCK;
+                setCurrentState(State.PRINT_STOCK);
                 break;
             case 3:
-                currentState = State.LOGIN;
+                setCurrentState(State.LOGIN);
                 break;
             default:
                 throw new InvalidCommandException();

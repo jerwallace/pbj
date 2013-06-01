@@ -5,7 +5,7 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import stocktracker.api.protocol.AbstractProtocol.State;
+import stocktracker.client.protocol.AbstractProtocol.State;
 
 /**
  *
@@ -16,14 +16,12 @@ public class User
     private String userName;
     private double balance;
     private Map<String, Integer> stocksOwned;
-    private State currentState;
 
     public User(String uName, double balance)
     {
         setUserName(uName);
         setBalance(balance);
         stocksOwned = new HashMap<>();
-        currentState = State.LOGIN;
     }
 
     public String getUserName()
@@ -45,14 +43,30 @@ public class User
     
     public String getBalanceString() {
         DecimalFormat dec = new DecimalFormat("#.00 USD");
-        return dec.format(balance);
+        return "$"+dec.format(balance);
     }
     
     public void setBalance(double balance)
     {
         this.balance = balance;
     }
-
+    
+    public int numStocksOwned(String tickerName) {
+        try {
+            return this.stocksOwned.get(tickerName);
+        } catch (NullPointerException npex) {
+            return 0;
+        }
+    }
+    
+    public void removeUserStock(String tickerName) {
+       this.stocksOwned.remove(tickerName);
+    }
+    
+    public void updateUserStock(String tickerName, int numStocks) {
+       this.stocksOwned.put(tickerName, numStocks);
+    }
+    
     public Map<String, Integer> getStocksOwned()
     {
         return this.stocksOwned;
@@ -69,17 +83,4 @@ public class User
         return mapString;
     }
 
-    /**
-     * @return the currentState
-     */
-    public State getCurrentState() {
-        return this.currentState;
-    }
-
-    /**
-     * @param currentState the currentState to set
-     */
-    public void setCurrentState(State currentState) {
-        this.currentState = currentState;
-    }
 }

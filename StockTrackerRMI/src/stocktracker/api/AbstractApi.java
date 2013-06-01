@@ -6,7 +6,7 @@ package stocktracker.api;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import stocktracker.api.protocol.AbstractProtocol.State;
+import stocktracker.client.protocol.AbstractProtocol.State;
 
 /**
  *
@@ -14,10 +14,10 @@ import stocktracker.api.protocol.AbstractProtocol.State;
  */
 public interface AbstractApi extends Remote {
     
-    public String processInput(String input) throws RemoteException;
-     
-    public String getNextInstruction() throws RemoteException;
-    
     public boolean userExists(String username) throws RemoteException;
+    
+    public User getUser(String username) throws RemoteException;
+    
+    public String selectStock(String tickerName) throws RemoteException;
     
 }

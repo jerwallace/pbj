@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package stocktracker.api.protocol;
+package stocktracker.client.protocol;
 
-import static stocktracker.api.protocol.AbstractProtocol.State;
+import static stocktracker.client.protocol.AbstractProtocol.State;
 
 /**
  *
@@ -20,6 +20,7 @@ public class UserProtocol extends AbstractProtocol
 
         BUY_STOCK, SELL_STOCK, QUERY_STOCK
     }
+    
     private Stock_Action currentAction = Stock_Action.QUERY_STOCK;
 
     @Override
@@ -29,21 +30,21 @@ public class UserProtocol extends AbstractProtocol
         {
             case 1:
                 currentAction = Stock_Action.BUY_STOCK;
-                currentState = State.SELECT_STOCK;
+                setCurrentState(State.SELECT_STOCK);
                 break;
             case 2:
                 currentAction = Stock_Action.SELL_STOCK;
-                currentState = State.SELECT_STOCK;
+                setCurrentState(State.SELECT_STOCK);
                 break;
             case 3:
                 currentAction = Stock_Action.QUERY_STOCK;
-                currentState = State.SELECT_STOCK;
+                setCurrentState(State.SELECT_STOCK);
                 break;
             case 4:
-                currentState = State.PRINT_STOCK;
+                setCurrentState(State.PRINT_STOCK);
                 break;
             case 5:
-                currentState = State.LOGIN;
+                setCurrentState(State.LOGIN);
                 break;
             default:
                 throw new InvalidCommandException();
@@ -51,7 +52,7 @@ public class UserProtocol extends AbstractProtocol
     }
 
     @Override
-    public String getInstruction()
+    public String getInstruction(State currentState)
     {
         switch (currentState)
         {

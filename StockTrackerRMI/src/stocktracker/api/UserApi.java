@@ -13,8 +13,8 @@ import java.rmi.*;
 
 public interface UserApi extends AbstractApi {
     
-    public boolean buyStock(int numStocks) throws RemoteException;
+    public void buyStock(String tickerName, String username, int numStocks) throws RemoteException;
 
-    public boolean sellStock(int numStocks) throws RemoteException;
+    public void sellStock(String tickerName, String username, int numStocks) throws RemoteException;
 
 }
