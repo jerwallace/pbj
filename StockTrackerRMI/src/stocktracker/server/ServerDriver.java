@@ -8,7 +8,6 @@ import stocktracker.api.*;
 
 /**
  *
- * @author Bahman
  */
 public class ServerDriver
 {
@@ -29,8 +28,7 @@ public class ServerDriver
     /**
      *
      * @param name
-     * @param remoteUserObj
-     * <p/>
+     * @param remoteUserObj <p/>
      * @throws RemoteException
      * @throws AlreadyBoundException
      */
@@ -45,8 +43,7 @@ public class ServerDriver
 
     /**
      *
-     * @param args
-     * <p/>
+     * @param args <p/>
      * @throws Exception
      */
     public static void main(String[] args) throws Exception
