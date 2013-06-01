@@ -14,7 +14,7 @@ public class CustomException extends RemoteException {
     
     public enum ErrorType
     {
-        NO_STOCK_FOUND, NEGATIVE_VOLUME, INSUFFICIENT_FUNDS, UNAVAILABLE_STOCK_VOLUME, STOCKS_NOT_AVAILABLE
+        NO_STOCK_FOUND, NEGATIVE_VOLUME, INSUFFICIENT_FUNDS, UNAVAILABLE_STOCK_VOLUME, STOCKS_NOT_AVAILABLE, BAD_PRICE_VALUE
     }
     
     public CustomException (ErrorType type) {
@@ -34,6 +34,8 @@ public class CustomException extends RemoteException {
                 return "Not enough stock volume is available for this trade.";
             case STOCKS_NOT_AVAILABLE:
                 return "You have specified more stocks than you own.";
+            case BAD_PRICE_VALUE:
+                return "New price must be greater than zero.";
             default:
                 return "Error.";
         }

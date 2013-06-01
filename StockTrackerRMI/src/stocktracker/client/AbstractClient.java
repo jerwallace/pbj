@@ -4,35 +4,17 @@
  */
 package stocktracker.client;
 
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Scanner;
-import stocktracker.api.AbstractApi;
-import stocktracker.api.StockList;
 import stocktracker.client.protocol.AbstractProtocol;
-import stocktracker.client.protocol.AbstractProtocol.State;
-import static stocktracker.client.protocol.AbstractProtocol.State.SELECT_COMMAND;
 import stocktracker.client.protocol.CustomException;
-import stocktracker.client.protocol.InvalidCommandException;
 
 /**
  *
  * @author WallaceJ
  */
 public abstract class AbstractClient {
-
-        protected static final String HOST = "localhost";
-        protected static final int PORT = 1099;
-        protected static Registry registry;
-        protected static AbstractApi remoteApi;
+    
         protected static AbstractProtocol thisProtocol;
-        protected String username;
-        protected String selectedStockName;
-        
-        public static void loadRegistry() throws RemoteException {
-            registry = LocateRegistry.getRegistry(HOST, PORT);
-        }
         
         public static void run() throws Exception {
         
@@ -41,14 +23,14 @@ public abstract class AbstractClient {
         
         while (!inputString.equalsIgnoreCase("Exit")) {
             
-            String nextInstruction = remoteApi.getNextInstruction(currentState);
+            String nextInstruction = thisProtocol.getInstruction(UserSession.getInstance().getCurrentState());
             
             if (nextInstruction != null) {
                 System.out.println(nextInstruction);
                 inputString = input.nextLine();
             }
             try {
-               String serverOutput = processInput(inputString);
+               String serverOutput = thisProtocol.processInput(inputString);
                if (serverOutput != null) {
                     System.out.println(serverOutput);    
                }
@@ -60,7 +42,5 @@ public abstract class AbstractClient {
             
         }
     }
-
-    public abstract String processInput(String input) throws RemoteException;
     
 }

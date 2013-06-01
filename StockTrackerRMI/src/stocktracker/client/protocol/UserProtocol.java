@@ -4,7 +4,11 @@
  */
 package stocktracker.client.protocol;
 
-import static stocktracker.client.protocol.AbstractProtocol.State;
+import java.rmi.RemoteException;
+import stocktracker.api.User;
+import stocktracker.api.UserApi;
+import stocktracker.client.UserSession;
+import stocktracker.client.protocol.AbstractProtocol.State;
 
 /**
  *
@@ -14,14 +18,13 @@ public class UserProtocol extends AbstractProtocol
 {
 
     private String menu = "1. Buy Stock    2. Sell Stock   3. Query Stock  4. Print Stock  5. Logout";
-
+    UserSession thisSession = UserSession.getInstance();
+    
     public enum Stock_Action
     {
 
         BUY_STOCK, SELL_STOCK, QUERY_STOCK
     }
-    
-    private Stock_Action currentAction = Stock_Action.QUERY_STOCK;
 
     @Override
     public void toggleStateByCommand(int input) throws InvalidCommandException
@@ -29,22 +32,22 @@ public class UserProtocol extends AbstractProtocol
         switch (input)
         {
             case 1:
-                currentAction = Stock_Action.BUY_STOCK;
-                setCurrentState(State.SELECT_STOCK);
+                thisSession.setCurrentAction(Stock_Action.BUY_STOCK);
+                thisSession.setCurrentState(State.SELECT_STOCK);
                 break;
             case 2:
-                currentAction = Stock_Action.SELL_STOCK;
-                setCurrentState(State.SELECT_STOCK);
+                thisSession.setCurrentAction(Stock_Action.SELL_STOCK);
+                thisSession.setCurrentState(State.SELECT_STOCK);
                 break;
             case 3:
-                currentAction = Stock_Action.QUERY_STOCK;
-                setCurrentState(State.SELECT_STOCK);
+                thisSession.setCurrentAction(Stock_Action.QUERY_STOCK);
+                thisSession.setCurrentState(State.SELECT_STOCK);
                 break;
             case 4:
-                setCurrentState(State.PRINT_STOCK);
+                thisSession.setCurrentState(State.PRINT_STOCK);
                 break;
             case 5:
-                setCurrentState(State.LOGIN);
+                thisSession.setCurrentState(State.LOGIN);
                 break;
             default:
                 throw new InvalidCommandException();
@@ -74,9 +77,80 @@ public class UserProtocol extends AbstractProtocol
                 return "Error determining state.";
         }
     }
-
-    public Stock_Action getTradeFlag()
+    
+    @Override
+    public String processInput(String input) throws RemoteException
     {
-        return currentAction;
+        User currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
+        String output = "";
+
+        if (input.equalsIgnoreCase("cancel"))
+        {
+            thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+            return null;
+        }
+        else
+        {
+            switch (thisSession.getCurrentState())
+            {
+                case LOGIN:
+                    thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                    thisSession.setUsername(input);
+                    String action = "";
+                    if (thisSession.getRemoteApi().userExists(thisSession.getUsername()))
+                    {
+                        action = "signed in";
+                    }
+                    else
+                    {
+                        action = "created";
+                    }
+                    
+                    currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
+                    return "User " + thisSession.getUsername() + " "+action+". \n Balance: $"+currentUser.getBalanceString();
+                    
+                case SELECT_COMMAND:
+                    try
+                    {
+                        toggleStateByCommand(Integer.parseInt(input));
+                    }
+                    catch (InvalidCommandException ex)
+                    {
+                        return "Please enter a valid command.";
+                    }
+                    break;
+                case SELECT_STOCK:
+                    thisSession.setSelectedStockName(input);
+                    return thisSession.getRemoteApi().selectStock(thisSession.getSelectedStockName())+" \nCurrent Balance: "+thisSession.getRemoteApi().getUser(thisSession.getUsername()).getBalanceString();
+                case TRADE_STOCK_AMOUNT:
+                    currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
+                    int numStocks = Integer.parseInt(input);
+
+                    if (thisSession.getCurrentAction() == UserProtocol.Stock_Action.BUY_STOCK)
+                    {
+                        ((UserApi)thisSession.getRemoteApi()).buyStock(thisSession.getSelectedStockName(), thisSession.getUsername(), numStocks);
+                        thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks purchased. \n New Balance: $"+currentUser.getBalanceString();
+                    }
+                    else if (thisSession.getCurrentAction() == UserProtocol.Stock_Action.SELL_STOCK)
+                    {
+                        ((UserApi)thisSession.getRemoteApi()).sellStock(thisSession.getSelectedStockName(), thisSession.getUsername(), numStocks);
+                        thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks sold. \n New Balance: $"+currentUser.getBalanceString();
+                    }
+                case UPDATE_BALANCE:
+                    thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                    return currentUser.getBalanceString() + "";
+                case PRINT_STOCK:
+                    output = "Current Balance: $"+currentUser.getBalanceString()+" \n Here is a list of all stocks you own: \n";
+                    thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                    return output + currentUser.printStocksOwned();
+                default:
+                    return "Error determining state.";
+            }
+        }
+
+        return null;
+
     }
 }

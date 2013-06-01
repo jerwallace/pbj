@@ -4,6 +4,7 @@
  */
 package stocktracker.client.protocol;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -13,8 +14,6 @@ import java.util.ArrayList;
 public abstract class AbstractProtocol
 {
     
-    private State currentState;
-
     public enum State
     {
 
@@ -27,19 +26,6 @@ public abstract class AbstractProtocol
 
     public abstract void toggleStateByCommand(int input) throws InvalidCommandException;
     
-     /**
-     * @return the currentState
-     */
-    public State getCurrentState() {
-        return currentState;
-    }
-
-    /**
-     * @param currentState the currentState to set
-     */
-    public void setCurrentState(State currentState) {
-        this.currentState = currentState;
-    }   
-    
+    public abstract String processInput(String input) throws RemoteException;
     
 }

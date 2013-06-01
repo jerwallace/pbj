@@ -33,7 +33,7 @@ public class ServerDriver
             
             startRegistry();
             registerObject(UserApi.class.getSimpleName(), new UserApiImpl());
-            registerObject(AbstractApi.class.getSimpleName(), new AdminApiImpl());
+            registerObject(AdminApi.class.getSimpleName(), new AdminApiImpl());
             
             Thread stockTrackerThread = new Thread(new StockTracker());
             stockTrackerThread.start();

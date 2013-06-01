@@ -8,12 +8,10 @@ package stocktracker.server;
  *
  * @author WallaceJ
  */
-import stocktracker.client.protocol.AdminProtocol;
 import java.rmi.*;
 import stocktracker.api.*;
-import stocktracker.client.protocol.InvalidCommandException;
-import stocktracker.client.protocol.AbstractProtocol;
-import static stocktracker.client.protocol.AbstractProtocol.State.SELECT_COMMAND;
+import stocktracker.client.protocol.CustomException;
+import stocktracker.client.protocol.CustomException.ErrorType;
 
 public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
 {
@@ -27,6 +25,14 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
         UserList.getInstance().addUser("bahman");
         UserList.getInstance().addUser("jeremy");
         UserList.getInstance().addUser("peter");
+    }
+    
+    public void updateStock(String tickerName,double price) throws RemoteException {
+        if (price < 0) {
+            throw new CustomException(ErrorType.BAD_PRICE_VALUE);
+        } else {
+            StockList.getInstance().updateStock(new Stock(tickerName,price));
+        }
     }
     
 }
