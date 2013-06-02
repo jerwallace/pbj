@@ -1,0 +1,56 @@
+CICS 525 L21
+
+Assignment 1 - JavaRMI
+
+
+Group 
+-------------
+
+    Lee, Peter          67000067
+    Razmpa, Bahman      50100056
+    Wallace, Jeremy
+    
+
+Operating System
+----------------
+
+
+IDE/Complier
+------------
+
+
+Tree structure
+--------------
+
+`-- javarmi
+    `-- StockTrackerRMI
+        `-- src
+        |   `-- org
+        |   |   `-- json
+        |   `-- stocktracker
+        |   |   `-- api
+        |   |   `-- client
+        |   |   `-- server
+        |   |-- Makefile
+
+
+Compilation instructions
+------------------------
+
+1) based on the tree structure illustrated above, cd to src/
+2) make install
+	
+
+Execution instructions
+----------------------
+1) pwd = src/
+2) start the server
+	java stocktracker.server.ServerDriver
+3) start a client
+	java stocktracker.client.UserDriver    or
+	java stocktracker.client.AdminDriver
+4) 
+
+
+Errors/Bugs:
+------------
