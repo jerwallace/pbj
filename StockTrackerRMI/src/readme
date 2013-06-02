@@ -16,18 +16,40 @@ Operating System
 
 
 IDE/Complier
+------------
 
 
+Tree structure
+--------------
 
-Compliation instructions
+`-- javarmi
+    `-- StockTrackerRMI
+        `-- src
+        |   `-- org
+        |   |   `-- json
+        |   `-- stocktracker
+        |   |   `-- api
+        |   |   `-- client
+        |   |   `-- server
+        |   |-- Makefile
+
+
+Compilation instructions
 ------------------------
 
-1) make install
-
+1) based on the tree structure illustrated above, cd to src/
+2) make install
+	
 
 Execution instructions
 ----------------------
-
+1) pwd = src/
+2) start the server
+	java stocktracker.server.ServerDriver
+3) start a client
+	java stocktracker.client.UserDriver    or
+	java stocktracker.client.AdminDriver
+4) 
 
 
 Errors/Bugs:
