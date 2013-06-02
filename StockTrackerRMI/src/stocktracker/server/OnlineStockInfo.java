@@ -111,9 +111,9 @@ public class OnlineStockInfo
                     + "select%20*%20from%20csv%20where%20url%3D%27http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + thisStock.getTickerName() + "%26f%3Dsl1d1t1c1ohgv%26e%3D.csv%27%20and%20columns%3D%27symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Ccol1%2Chigh%2Clow%2Ccol2%27"
                     + "&format=json").toString();
 
-            System.out.println(yql);
+            //System.out.println(yql);
             JSONObject json = readJsonFromUrl(yql);
-            System.out.println(json);
+            //System.out.println(json);
             JSONObject results = json.getJSONObject("query").getJSONObject("results").getJSONObject("row");
 
             if ((results.get("price") == null))
@@ -149,9 +149,9 @@ public class OnlineStockInfo
                         + "select%20*%20from%20csv%20where%20url%3D%27http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + StockList.getInstance().getTickerNameAllStocksTracked() + "%26f%3Dsl1d1t1c1ohgv%26e%3D.csv%27%20and%20columns%3D%27symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Ccol1%2Chigh%2Clow%2Ccol2%27"
                         + "&format=json").toString();
 
-                System.out.println(yql);
+                //System.out.println(yql);
                 JSONObject json = readJsonFromUrl(yql);
-                System.out.println(json);
+                //System.out.println(json);
 
                 Object results = json.getJSONObject("query").getJSONObject("results").get("row");
 

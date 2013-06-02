@@ -153,4 +153,12 @@ public class StockList
         }
         return mapString.substring(0, mapString.length() - 1);
     }
+    
+    public void importStocksTable(Map<String,Stock> recoveredStocksTable) {
+        this.stocksTable = recoveredStocksTable;
+    }
+    
+    public Map<String,Stock> exportStocksTable() {
+        return this.stocksTable;
+    }
 }

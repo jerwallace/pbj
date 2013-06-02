@@ -1,13 +1,13 @@
 package stocktracker.api;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
 /**
  * Class describing a Stock object
  */
-public class Stock
+public class Stock implements Serializable
 {
-
     private String tickerName;
     private double price;
     private int volume;

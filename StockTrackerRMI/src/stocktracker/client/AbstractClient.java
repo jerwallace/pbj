@@ -44,6 +44,7 @@ public abstract class AbstractClient
             if (nextInstruction != null)
             {
                 System.out.println(nextInstruction);
+                System.out.print("> ");
                 inputString = input.nextLine();
             }
             try
@@ -82,6 +83,7 @@ public abstract class AbstractClient
         {
 
             System.out.println("Please enter a valid PBJ Stock Exchange server address (default: localhost):");
+            System.out.print("> ");
             inputString = input.nextLine();
 
             if (inputString.isEmpty())

@@ -9,6 +9,7 @@ import stocktracker.api.User;
 import stocktracker.api.UserApi;
 import stocktracker.client.UserSession;
 import stocktracker.client.protocol.AbstractProtocol.State;
+import stocktracker.client.protocol.CustomException.ErrorType;
 
 /**
  *
@@ -116,7 +117,7 @@ public class UserProtocol extends AbstractProtocol
                     }
                     catch (InvalidCommandException ex)
                     {
-                        return "Please enter a valid command.";
+                        throw new CustomException(ErrorType.INVALID_COMMAND);
                     }
                     break;
                 case SELECT_STOCK:

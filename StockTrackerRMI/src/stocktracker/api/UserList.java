@@ -81,4 +81,12 @@ public class UserList
     {
         userList.remove(userName);
     }
+    
+        public void importUserList(Map<String,User> recoveredUserList) {
+        this.userList = recoveredUserList;
+    }
+    
+    public Map<String,User> exportUserList() {
+        return this.userList;
+    }
 }

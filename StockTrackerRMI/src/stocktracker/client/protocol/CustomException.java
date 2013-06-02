@@ -14,7 +14,8 @@ public class CustomException extends RemoteException {
     
     public enum ErrorType
     {
-        NO_STOCK_FOUND, NEGATIVE_VOLUME, INSUFFICIENT_FUNDS, UNAVAILABLE_STOCK_VOLUME, STOCKS_NOT_AVAILABLE, BAD_PRICE_VALUE
+        NO_STOCK_FOUND, NEGATIVE_VOLUME, INSUFFICIENT_FUNDS, UNAVAILABLE_STOCK_VOLUME, 
+        STOCKS_NOT_AVAILABLE, BAD_PRICE_VALUE, INVALID_COMMAND
     }
     
     public CustomException (ErrorType type) {
@@ -36,6 +37,8 @@ public class CustomException extends RemoteException {
                 return "You have specified more stocks than you own.";
             case BAD_PRICE_VALUE:
                 return "New price must be greater than zero.";
+            case INVALID_COMMAND:
+                return "Please enter a valid command.";
             default:
                 return "Error.";
         }
