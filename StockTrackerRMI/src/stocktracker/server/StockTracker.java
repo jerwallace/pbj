@@ -8,21 +8,27 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author WallaceJ
+ * Runnable class that controls the OnlineStockInfo object by calling it to
+ * update all Stock information every 2 minutes
  */
-public class StockTracker implements Runnable {
+public class StockTracker implements Runnable
+{
 
-	/**
-	 * initialize a thread to update StockList every 20000 ms
-	 */
+    /**
+     * initialize a thread to update StockList every 120000 ms (2 minutes)
+     */
     @Override
-    public void run() {
-        while (true) {
-            try {
+    public void run()
+    {
+        while (true)
+        {
+            try
+            {
                 OnlineStockInfo.updateStocks();
-                Thread.sleep(20000);
-            } catch (InterruptedException ex) {
+                Thread.sleep(120000);
+            }
+            catch (InterruptedException ex)
+            {
                 Logger.getLogger(StockTracker.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

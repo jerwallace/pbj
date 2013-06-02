@@ -1,21 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package stocktracker.server;
 
-/**
- *
- * @author WallaceJ
- */
 import java.rmi.*;
 import stocktracker.api.*;
 import stocktracker.client.protocol.CustomException;
 import stocktracker.client.protocol.CustomException.ErrorType;
 
 /**
- *
- * @author Bahman
+ * Extends the AbstractApiImpl by adding Server side remotely invoked methods
+ * that are used by Admin type Client
  */
 public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
 {
@@ -24,7 +16,8 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
     private int counter = 0;
 
     /**
-     *
+     * * Public default constructor overriding the AbstractApiImpl superclass
+     * <p/>
      * @throws RemoteException
      */
     public AdminApiImpl() throws RemoteException
@@ -36,18 +29,21 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
     }
 
     /**
-     *
-     * @param tickerName
-     * @param price
+     * Public method that updates the price of a stock given it's tickerName and
+     * a new price value
      * <p/>
+     * @param tickerName
+     * @param price      <p/>
      * @throws RemoteException
      */
-    public void updateStock(String tickerName, double price) throws RemoteException
+    public synchronized void updateStock(String tickerName, double price) throws RemoteException
     {
+        //If new price value is not a positive value, throw an error
         if (price < 0)
         {
             throw new CustomException(ErrorType.BAD_PRICE_VALUE);
         }
+        //Else update the price of the Stock inside the StockList Singleton object
         else
         {
             StockList.getInstance().updateStock(new Stock(tickerName, price));
