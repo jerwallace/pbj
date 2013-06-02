@@ -13,6 +13,9 @@ import java.util.logging.Logger;
  */
 public class StockTracker implements Runnable {
 
+	/**
+	 * initialize a thread to update StockList every 20000 ms
+	 */
     @Override
     public void run() {
         while (true) {
@@ -24,5 +27,4 @@ public class StockTracker implements Runnable {
             }
         }
     }
-    
 }
