@@ -79,7 +79,7 @@ public abstract class AbstractClient
      */
     public static void connectToServer()
     {
-        String validServerRegex = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
+        String validServerRegex = "[a-zA-Z0-9.]";
         Scanner input = new Scanner(System.in);
         String inputString = "";
 
