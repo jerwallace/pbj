@@ -77,9 +77,9 @@ public class SaveState
                     UserList.getInstance().importUserList(mapsToSave.get(0));
                     StockList.getInstance().importStocksTable(mapsToSave.get(1));
                     //display its data
-                    System.out.println("Stocklist Imported:");
+                    System.out.println("Stock List Imported:");
                     System.out.println(StockList.getInstance());
-                    System.out.println("User lit Imported:");
+                    System.out.println("User List Imported:");
                     System.out.println(UserList.getInstance());
                 }
                 finally

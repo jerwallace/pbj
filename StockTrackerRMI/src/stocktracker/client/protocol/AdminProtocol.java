@@ -1,27 +1,28 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package stocktracker.client.protocol;
 
 import java.rmi.RemoteException;
 import stocktracker.api.AdminApi;
 import stocktracker.api.StockList;
-import stocktracker.api.UserApi;
 import stocktracker.client.AdminSession;
+import stocktracker.client.protocol.CustomException.ErrorType;
 
 /**
- *
- * @author WallaceJ
+ * Admin Protocol contains all of the actions and the flow of states between
+ * the server and the client.
  */
 public class AdminProtocol extends AbstractProtocol
 {
 
     private String menu = "1. Update Stock Price" + "\t" + "2. Print Stock" + "\t" + "2. Log out";
     AdminSession thisSession = AdminSession.getInstance();
-    
+
+    /**
+     * getInstruction will return a question to the client based on a state.
+     * @param currentState The current state the user is in.
+     * @return The corresponding instruction.
+     */    
     @Override
-    public String getInstruction(State currentState)
+    public String getInstruction(State currentState) throws CustomException
     {
         switch (currentState)
         {
@@ -29,24 +30,29 @@ public class AdminProtocol extends AbstractProtocol
                 return "Login:";
             case SELECT_COMMAND:
                 return menu;
-            case UPDATE_STOCK:
+            case UPDATE:
                 return "Which stock would you like to update? (or type \"cancel\" to go back)";
             case UPDATE_STOCK_PRICE:
                 return "Enter new stock value: (or type \"cancel\" to go back)";
             case PRINT_STOCK:
                 return null;
             default:
-                return "Error determining state.";
+                throw new CustomException(ErrorType.INVALID_COMMAND);
         }
     }
 
+    /**
+     * This method accepts a number and issues a state change.
+     * @param input The number that corresponds to the menu.
+     * @throws InvalidCommandException When an invalid number is selected.
+     */
     @Override
-    public void toggleStateByCommand(int input) throws InvalidCommandException
+    public void toggleStateByCommand(int input) throws CustomException
     {
         switch (input)
         {
             case 1:
-                thisSession.setCurrentState(State.UPDATE_STOCK);
+                thisSession.setCurrentState(State.UPDATE);
                 break;
             case 2:
                 thisSession.setCurrentState(State.PRINT_STOCK);
@@ -55,7 +61,7 @@ public class AdminProtocol extends AbstractProtocol
                 thisSession.setCurrentState(State.LOGIN);
                 break;
             default:
-                throw new InvalidCommandException();
+                throw new CustomException(ErrorType.INVALID_COMMAND);
         }
     }
     
@@ -75,6 +81,7 @@ public class AdminProtocol extends AbstractProtocol
             {
                 case LOGIN:
                     thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                    // If the user does not exist, a new user will be created.
                     if (thisSession.getRemoteApi().userExists(input))
                     {
                         return "User " + thisSession.getUsername() + " signed in.";
@@ -84,21 +91,15 @@ public class AdminProtocol extends AbstractProtocol
                         return "User " + thisSession.getUsername() + " created.";
                     }
                 case SELECT_COMMAND:
-                    try
-                    {
-                        toggleStateByCommand(Integer.parseInt(input));
-                    }
-                    catch (InvalidCommandException ex)
-                    {
-                        return "Please enter a valid command.";
-                    }
+                    toggleStateByCommand(Integer.parseInt(input));
                     break;
-                case UPDATE_STOCK:
+                case UPDATE:
                     thisSession.setCurrentState(AbstractProtocol.State.UPDATE_STOCK_PRICE);
                     thisSession.setSelectedStockName(thisSession.getRemoteApi().selectStock(thisSession.getSelectedStockName()));
                     return thisSession.getSelectedStockName()+" has been selected.";
                 case UPDATE_STOCK_PRICE:
                     thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                    // Accept the new price and update the stock.
                     double newPrice = Double.parseDouble(input);
                     ((AdminApi)thisSession.getRemoteApi()).updateStock(thisSession.getSelectedStockName(),newPrice);
                     return "Stock Updated: "+((AdminApi)thisSession.getRemoteApi()).selectStock(thisSession.getSelectedStockName());
@@ -107,7 +108,7 @@ public class AdminProtocol extends AbstractProtocol
                     thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
                     return output + StockList.getInstance();
                 default:
-                    return "Error determining state.";
+                    throw new CustomException(ErrorType.INVALID_COMMAND);
             }
         }
         return null;

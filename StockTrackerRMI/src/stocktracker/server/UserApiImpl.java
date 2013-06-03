@@ -128,8 +128,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
 
                 //Increase the overall available volume of selected stock in the Stock Market by adding them back to StockList
                 StockList.getInstance().getStockByTickerName(currentStock.getTickerName()).increaseVolume(numStocks);
-
-                //Updating User's Balance
+                
                 UserList.getInstance().getUser(username).setBalance((currentUser.getBalance() + totalSalePrice));
 
                 //If User has sold all of their Stocks of the selected kind, remove that tickerName from User's StocksOwned
