@@ -70,9 +70,9 @@ public class UserProtocol extends AbstractProtocol
      * @return The corresponding instruction.
      */
     @Override
-    public String getInstruction(State currentState) throws CustomException
+    public String getInstruction() throws CustomException
     {
-        switch (currentState)
+        switch (thisSession.getInstance().getCurrentState())
         {
             case LOGIN:
                 return "Login:";

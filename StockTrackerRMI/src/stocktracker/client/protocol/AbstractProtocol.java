@@ -22,7 +22,7 @@ public abstract class AbstractProtocol
     }
     protected ArrayList<String> messages = new ArrayList<String>();
 
-    public abstract String getInstruction(State currentState) throws CustomException;
+    public abstract String getInstruction() throws CustomException;
 
     public abstract void toggleStateByCommand(int input) throws CustomException;
     

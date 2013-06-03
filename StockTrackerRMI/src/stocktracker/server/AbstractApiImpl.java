@@ -90,4 +90,15 @@ public abstract class AbstractApiImpl extends UnicastRemoteObject implements Abs
             return tickerName + " Stock price is currently @: $" + currentStock.getPriceString();
         }
     }
+    
+    /**
+     * Returns the entire stock list.
+     * @return A string containing the entire stock list.
+     * @throws CustomException
+     * @throws RemoteException 
+     */
+    @Override
+    public String printStockList() throws CustomException, RemoteException {
+        return StockList.getInstance().toString();
+    }
 }

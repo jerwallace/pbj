@@ -40,7 +40,7 @@ public abstract class AbstractClient
         {
             String nextInstruction = "";
             //Get next instruction based on the current state of the current user of the given type using the its protocol
-            nextInstruction = thisProtocol.getInstruction(UserSession.getInstance().getCurrentState());
+            nextInstruction = thisProtocol.getInstruction();
 
 
             if (nextInstruction != null)

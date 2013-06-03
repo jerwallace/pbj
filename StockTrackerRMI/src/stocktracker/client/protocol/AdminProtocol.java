@@ -23,15 +23,16 @@ public class AdminProtocol extends AbstractProtocol
      * @return The corresponding instruction.
      */    
     @Override
-    public String getInstruction(State currentState) throws CustomException
+    public String getInstruction() throws CustomException
     {
-        switch (currentState)
+
+        switch (thisSession.getInstance().getCurrentState())
         {
             case LOGIN:
                 return "Login:";
             case SELECT_COMMAND:
                 return menu;
-            case UPDATE:
+            case SELECT_STOCK:
                 return "Which stock would you like to update? (or type \"cancel\" to go back)";
             case UPDATE_STOCK_PRICE:
                 return "Enter new stock value: (or type \"cancel\" to go back)";
@@ -53,7 +54,7 @@ public class AdminProtocol extends AbstractProtocol
         switch (input)
         {
             case 1:
-                thisSession.setCurrentState(State.UPDATE);
+                thisSession.setCurrentState(State.SELECT_STOCK);
                 break;
             case 2:
                 thisSession.setCurrentState(State.PRINT_STOCK);
@@ -69,9 +70,8 @@ public class AdminProtocol extends AbstractProtocol
     @Override
     public String processInput(String input) throws CustomException, RemoteException
     {
-        User currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
         
-        System.out.println(thisSession.getUsername()+" - testing."+" ("+input+") - "+thisSession.getCurrentState().toString());
+        User currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
         String output = "";
 
         if (input.equalsIgnoreCase("cancel"))
@@ -85,7 +85,7 @@ public class AdminProtocol extends AbstractProtocol
             {
                 case LOGIN:
                     thisSession.setCurrentState(State.SELECT_COMMAND);
-                    System.out.println("login function.");
+                    thisSession.setUsername(input);
                     // If the user does not exist, a new user will be created.
                     if (thisSession.getRemoteApi().userExists(input))
                     {
@@ -98,10 +98,11 @@ public class AdminProtocol extends AbstractProtocol
                 case SELECT_COMMAND:
                     toggleStateByCommand(Integer.parseInt(input));
                     break;
-                case UPDATE:
+                case SELECT_STOCK:
+                    thisSession.setSelectedStockName(input);
+                    String selectedStock = thisSession.getRemoteApi().selectStock(thisSession.getSelectedStockName());
                     thisSession.setCurrentState(State.UPDATE_STOCK_PRICE);
-                    thisSession.setSelectedStockName(thisSession.getRemoteApi().selectStock(thisSession.getSelectedStockName()));
-                    return thisSession.getSelectedStockName()+" has been selected.";
+                    return selectedStock;
                 case UPDATE_STOCK_PRICE:
                     thisSession.setCurrentState(State.SELECT_COMMAND);
                     // Accept the new price and update the stock.
@@ -109,9 +110,9 @@ public class AdminProtocol extends AbstractProtocol
                     ((AdminApi)thisSession.getRemoteApi()).updateStock(thisSession.getSelectedStockName(),newPrice);
                     return "Stock Updated: "+((AdminApi)thisSession.getRemoteApi()).selectStock(thisSession.getSelectedStockName());
                 case PRINT_STOCK:
-                    output = "Here is a list of all stocks you have updated:\n";
+                    output = "Here is a list of all stocks currently cached:\n";
                     thisSession.setCurrentState(State.SELECT_COMMAND);
-                    return output + StockList.getInstance();
+                    return output + thisSession.getRemoteApi().printStockList();
                 default:
                     throw new CustomException(ErrorType.INVALID_COMMAND);
             }

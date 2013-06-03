@@ -42,4 +42,12 @@ public interface AbstractApi extends Remote
      * @throws RemoteException
      */
     public String selectStock(String tickerName) throws CustomException, RemoteException;
+    
+    /**
+     * Returns the entire stock list.
+     * @return A string containing the entire stock list.
+     * @throws CustomException
+     * @throws RemoteException 
+     */
+    public String printStockList() throws CustomException, RemoteException;
 }
