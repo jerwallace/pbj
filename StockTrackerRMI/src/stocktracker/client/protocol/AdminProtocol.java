@@ -66,7 +66,7 @@ public class AdminProtocol extends AbstractProtocol
     }
     
     @Override
-    public String processInput(String input) throws RemoteException
+    public String processInput(String input) throws CustomException, RemoteException
     {
         String output = "";
 

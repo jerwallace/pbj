@@ -77,7 +77,7 @@ public abstract class AbstractApiImpl extends UnicastRemoteObject implements Abs
      * @throws RemoteException
      */
     @Override
-    public String selectStock(String tickerName) throws RemoteException
+    public String selectStock(String tickerName) throws CustomException, RemoteException
     {
         Stock currentStock = StockList.getInstance().getStockByTickerName(tickerName);
 

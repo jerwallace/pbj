@@ -39,13 +39,9 @@ public class SaveState
 
         try
         {
-            FileOutputStream fileOut =
-                    new FileOutputStream(this.tmpDir + "pbjdata.ser");
-            ObjectOutputStream out =
-                    new ObjectOutputStream(fileOut);
-            out.writeObject(mapsToSave);
-            out.close();
-            fileOut.close();
+            try (FileOutputStream fileOut = new FileOutputStream(this.tmpDir + "pbjdata.ser"); ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+                out.writeObject(mapsToSave);
+            }
         }
         catch (IOException i)
         {
@@ -68,9 +64,8 @@ public class SaveState
                 //use buffering
                 InputStream file = new FileInputStream(this.tmpDir + "pbjdata.ser");
                 InputStream buffer = new BufferedInputStream(file);
-                ObjectInput input = new ObjectInputStream(buffer);
                 try
-                {
+                (ObjectInput input = new ObjectInputStream(buffer)) {
                     //deserialize the List
                     mapsToSave = (ArrayList<Map>) input.readObject();
 
@@ -81,10 +76,6 @@ public class SaveState
                     System.out.println(StockList.getInstance());
                     System.out.println("User List Imported:");
                     System.out.println(UserList.getInstance());
-                }
-                finally
-                {
-                    input.close();
                 }
             }
             catch (ClassNotFoundException ex)

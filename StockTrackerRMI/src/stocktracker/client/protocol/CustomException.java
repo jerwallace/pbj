@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  *
  * @author WallaceJ
  */
-public class CustomException extends RemoteException {
+public class CustomException extends Exception {
     
     public enum ErrorType
     {
@@ -19,9 +19,7 @@ public class CustomException extends RemoteException {
     }
     
     public CustomException (ErrorType type) {
-        super();
-        //System.out.println("test");
-        //super(getMessage(type));
+        super(getMessage(type));
     }
     
     public static String getMessage(ErrorType type) {

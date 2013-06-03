@@ -2,6 +2,7 @@ package stocktracker.api;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import stocktracker.client.protocol.CustomException;
 
 /**
  * Abstract Interface class for both client types containing the methods
@@ -40,5 +41,5 @@ public interface AbstractApi extends Remote
      * @return <p/>
      * @throws RemoteException
      */
-    public String selectStock(String tickerName) throws RemoteException;
+    public String selectStock(String tickerName) throws CustomException, RemoteException;
 }

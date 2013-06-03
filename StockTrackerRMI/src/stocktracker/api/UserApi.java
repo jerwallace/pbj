@@ -1,6 +1,7 @@
 package stocktracker.api;
 
 import java.rmi.*;
+import stocktracker.client.protocol.CustomException;
 
 /**
  * Interface class for the User(Trader) type client containing the methods
@@ -20,7 +21,7 @@ public interface UserApi extends AbstractApi
      * @throws RemoteException
      * @return The new balance of the user.
      */
-    public double buyStock(String tickerName, String username, int numStocks) throws RemoteException;
+    public double buyStock(String tickerName, String username, int numStocks) throws CustomException, RemoteException;
 
     /**
      * Public method that is invoked by User client that is identified by
@@ -33,5 +34,5 @@ public interface UserApi extends AbstractApi
      * @throws RemoteException
      * @return The new balance of the user.
      */
-    public double sellStock(String tickerName, String username, int numStocks) throws RemoteException;
+    public double sellStock(String tickerName, String username, int numStocks) throws CustomException, RemoteException;
 }

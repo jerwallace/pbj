@@ -94,7 +94,7 @@ public class UserProtocol extends AbstractProtocol
      * @throws RemoteException 
      */
     @Override
-    public String processInput(String input) throws RemoteException, CustomException
+    public String processInput(String input) throws CustomException, RemoteException
     {
         User currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
         String output = "";

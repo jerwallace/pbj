@@ -4,6 +4,7 @@
  */
 package stocktracker.client;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -59,7 +60,11 @@ public abstract class AbstractClient
             {
                 System.err.println("Please enter a valid postive number.");
             }
-            catch (CustomException ex)
+            catch (CustomException cex)
+            {
+                System.err.println(cex.getMessage());
+            }
+            catch (RemoteException ex)
             {
                 System.err.println(ex);
             }

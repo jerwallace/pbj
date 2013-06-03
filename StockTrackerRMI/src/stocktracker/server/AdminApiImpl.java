@@ -36,7 +36,7 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
      * @param price      <p/>
      * @throws RemoteException
      */
-    public synchronized void updateStock(String tickerName, double price) throws RemoteException
+    public synchronized void updateStock(String tickerName, double price) throws CustomException
     {
         //If new price value is not a positive value, throw an error
         if (price < 0)

@@ -26,6 +26,6 @@ public abstract class AbstractProtocol
 
     public abstract void toggleStateByCommand(int input) throws CustomException;
     
-    public abstract String processInput(String input) throws RemoteException;
+    public abstract String processInput(String input) throws CustomException, RemoteException;
     
 }

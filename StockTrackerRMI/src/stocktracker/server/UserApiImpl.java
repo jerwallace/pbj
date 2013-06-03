@@ -36,7 +36,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
      * @throws RemoteException
      */
     @Override
-    public synchronized double buyStock(String tickerName, String username, int numStocks) throws RemoteException
+    public synchronized double buyStock(String tickerName, String username, int numStocks) throws CustomException, RemoteException
     {
         //If number of stocks requested is a negative number throw error
         if (numStocks < 0)
@@ -96,7 +96,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
      * @throws RemoteException
      */
     @Override
-    public synchronized double sellStock(String tickerName, String username, int numStocks) throws RemoteException
+    public synchronized double sellStock(String tickerName, String username, int numStocks) throws CustomException, RemoteException
     {
         //If number of stocks requested is a negative number throw error
         if (numStocks < 0)
