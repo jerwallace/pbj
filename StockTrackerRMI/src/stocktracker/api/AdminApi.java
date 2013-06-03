@@ -1,6 +1,7 @@
 package stocktracker.api;
 
 import java.rmi.RemoteException;
+import stocktracker.client.protocol.CustomException;
 
 /**
  * Interface class for the Administrator type client containing the methods
@@ -17,5 +18,5 @@ public interface AdminApi extends AbstractApi
      * @param newPrice   <p/>
      * @throws RemoteException
      */
-    public void updateStock(String tickerName, double newPrice) throws RemoteException;
+    public void updateStock(String tickerName, double price) throws CustomException, RemoteException;
 }

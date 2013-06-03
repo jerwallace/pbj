@@ -9,7 +9,7 @@ import stocktracker.client.protocol.CustomException.ErrorType;
  * Extends the AbstractApiImpl by adding Server side remotely invoked methods
  * that are used by Admin type Client
  */
-public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
+public class AdminApiImpl extends AbstractApiImpl implements AdminApi
 {
 
     private static final long serialVersionUID = 1L;
@@ -36,7 +36,7 @@ public class AdminApiImpl extends AbstractApiImpl implements AbstractApi
      * @param price      <p/>
      * @throws RemoteException
      */
-    public synchronized void updateStock(String tickerName, double price) throws CustomException
+    public synchronized void updateStock(String tickerName, double price) throws CustomException, RemoteException
     {
         //If new price value is not a positive value, throw an error
         if (price < 0)

@@ -24,6 +24,13 @@ public class UserProtocol extends AbstractProtocol
         BUY, SELL, QUERY_STOCK
     }
 
+    public String getCurrentBalance() throws RemoteException {
+        return "\nCurrent Balance: "+thisSession.getRemoteApi().getUser(thisSession.getUsername()).getBalanceString();
+    }
+    
+    public String printStocksOwned() throws RemoteException {
+        return "Here is a list of all stocks you own: \n" + getCurrentBalance() + "\n" + thisSession.getRemoteApi().getUser(thisSession.getUsername()).printStocksOwned()+" \n";
+    }
     /**
      * This method accepts a number and issues a state change.
      * @param input The number that corresponds to the menu.
@@ -72,7 +79,7 @@ public class UserProtocol extends AbstractProtocol
             case SELECT_COMMAND:
                 return menu;
             case SELECT_STOCK:
-                return "Which stock would you like to trade? (or type \"cancel\" to go back)";
+                return "Which stock would you like to "+thisSession.getCurrentAction().toString().toLowerCase()+"? (or type \"cancel\" to go back)";
             case TRADE_STOCK_AMOUNT:
                 return "How many stocks would you like to "+thisSession.getCurrentAction().toString().toLowerCase()+"? (or type \"cancel\" to go back)";
             case UPDATE_BALANCE:
@@ -124,24 +131,27 @@ public class UserProtocol extends AbstractProtocol
                     }
                     
                     currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
-                    return "User " + thisSession.getUsername() + " "+action+". \nBalance: "+currentUser.getBalanceString();
+                    return "User " + thisSession.getUsername() + " "+action+"."+getCurrentBalance();
                 case SELECT_COMMAND:
                     toggleStateByCommand(Integer.parseInt(input));
                     break;
                 case SELECT_STOCK:
+                    output = "";
                     thisSession.setSelectedStockName(input);
+                    String selectedStock = thisSession.getRemoteApi().selectStock(thisSession.getSelectedStockName());
                     
                     if (thisSession.getCurrentAction() != UserProtocol.Stock_Action.QUERY_STOCK)
                     {
+                        output += printStocksOwned();
                         // If the current state is Buy or Sell, ask for an amount.
                         thisSession.setCurrentState(State.TRADE_STOCK_AMOUNT);
                     } else {
                         // If the current state is Query, go back to the menu.
                         thisSession.setCurrentState(State.SELECT_COMMAND);
                     }
+ 
+                    return output+selectedStock;
                     
-                    return thisSession.getRemoteApi().selectStock(thisSession.getSelectedStockName())+" \nCurrent Balance: "+thisSession.getRemoteApi().getUser(thisSession.getUsername()).getBalanceString();
-
                 case TRADE_STOCK_AMOUNT:
                     
                     currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
@@ -153,7 +163,7 @@ public class UserProtocol extends AbstractProtocol
                         double newBalance = ((UserApi)thisSession.getRemoteApi()).buyStock(thisSession.getSelectedStockName(), thisSession.getUsername(), numStocks);
                         thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
                         // Print new balance.
-                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks purchased. \n New Balance: $"+newBalance;
+                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks purchased. "+printStocksOwned();
                     }
                     else if (thisSession.getCurrentAction() == UserProtocol.Stock_Action.SELL)
                     {
@@ -162,7 +172,7 @@ public class UserProtocol extends AbstractProtocol
                         thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
                         
                         // Print new balance.
-                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks sold. \n New Balance: $"+newBalance;
+                        return numStocks + " " + thisSession.getSelectedStockName() + " stocks sold. "+printStocksOwned();
                     }
                 
                 case UPDATE_BALANCE:
@@ -172,9 +182,7 @@ public class UserProtocol extends AbstractProtocol
                 
                 case PRINT_STOCK:
                     // Print the stocks owned by the user, along with an up to date balance.
-                    output = "Current Balance: "+currentUser.getBalanceString()+" \nHere is a list of all stocks you own: \n";
-                    thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
-                    return output + currentUser.printStocksOwned();
+                    return printStocksOwned();
                 default:
                     throw new CustomException(ErrorType.INVALID_COMMAND);
             }

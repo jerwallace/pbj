@@ -41,7 +41,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         //If number of stocks requested is a negative number throw error
         if (numStocks < 0)
         {
-            throw new CustomException(ErrorType.NEGATIVE_VOLUME);
+            throw new CustomException(ErrorType.NEGATIVE_NUMBER);
         }
         else
         {
@@ -101,7 +101,7 @@ public class UserApiImpl extends AbstractApiImpl implements UserApi
         //If number of stocks requested is a negative number throw error
         if (numStocks < 0)
         {
-            throw new CustomException(ErrorType.NEGATIVE_VOLUME);
+            throw new CustomException(ErrorType.NEGATIVE_NUMBER);
         }
         else
         {

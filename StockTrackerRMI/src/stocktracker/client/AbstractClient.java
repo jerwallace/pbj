@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import stocktracker.client.protocol.AbstractProtocol;
 import stocktracker.client.protocol.CustomException;
+import stocktracker.client.protocol.CustomException.ErrorType;
 
 /**
  * Abstract Client class
@@ -58,7 +59,7 @@ public abstract class AbstractClient
             }
             catch (NumberFormatException nfex)
             {
-                System.err.println("Please enter a valid postive number.");
+                System.err.println("Please enter a valid positive integer.");
             }
             catch (CustomException cex)
             {

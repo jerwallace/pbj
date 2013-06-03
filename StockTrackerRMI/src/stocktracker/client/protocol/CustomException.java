@@ -14,8 +14,8 @@ public class CustomException extends Exception {
     
     public enum ErrorType
     {
-        NO_STOCK_FOUND, NEGATIVE_VOLUME, INSUFFICIENT_FUNDS, UNAVAILABLE_STOCK_VOLUME, 
-        STOCKS_NOT_AVAILABLE, BAD_PRICE_VALUE, INVALID_COMMAND
+        NO_STOCK_FOUND, INSUFFICIENT_FUNDS, UNAVAILABLE_STOCK_VOLUME, 
+        STOCKS_NOT_AVAILABLE, BAD_PRICE_VALUE, INVALID_COMMAND, NEGATIVE_NUMBER
     }
     
     public CustomException (ErrorType type) {
@@ -27,8 +27,8 @@ public class CustomException extends Exception {
         switch (type) {
             case NO_STOCK_FOUND: 
                 return "Not a valid tickername.";
-            case NEGATIVE_VOLUME:
-                return "Not enough stocks available.";
+            case NEGATIVE_NUMBER:
+                return "Please enter a valid positive integer.";
             case INSUFFICIENT_FUNDS:
                 return "Insufficient funds.";
             case UNAVAILABLE_STOCK_VOLUME:
