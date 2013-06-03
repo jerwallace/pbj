@@ -19,7 +19,9 @@ public class CustomException extends RemoteException {
     }
     
     public CustomException (ErrorType type) {
-        super(getMessage(type));
+        super();
+        //System.out.println("test");
+        //super(getMessage(type));
     }
     
     public static String getMessage(ErrorType type) {

@@ -18,13 +18,13 @@ public abstract class AbstractProtocol
     {
 
         LOGIN, SELECT_COMMAND, UPDATE_BALANCE, PRINT_STOCK, QUERY, NUM_COMMAND,
-        UPDATE_STOCK, UPDATE_STOCK_PRICE, SELECT_STOCK, TRADE_STOCK_AMOUNT
+        UPDATE, UPDATE_STOCK_PRICE, SELECT_STOCK, TRADE_STOCK_AMOUNT
     }
     protected ArrayList<String> messages = new ArrayList<String>();
 
-    public abstract String getInstruction(State currentState);
+    public abstract String getInstruction(State currentState) throws CustomException;
 
-    public abstract void toggleStateByCommand(int input) throws InvalidCommandException;
+    public abstract void toggleStateByCommand(int input) throws CustomException;
     
     public abstract String processInput(String input) throws RemoteException;
     

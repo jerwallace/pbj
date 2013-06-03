@@ -118,7 +118,7 @@ public class StockList
         mapString = "Stock Name" + "\t" + "Stock Value \n";
         for (Map.Entry<String, Stock> entry : this.stocksTable.entrySet())
         {
-            mapString += entry.getValue();
+            mapString += entry.getValue()+"\n";
         }
         return mapString;
     }

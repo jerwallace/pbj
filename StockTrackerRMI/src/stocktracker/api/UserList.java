@@ -89,4 +89,15 @@ public class UserList
     public Map<String,User> exportUserList() {
         return this.userList;
     }
+    
+    @Override
+    public String toString() {
+        String mapString = "";
+        mapString = "Username \n";
+        for (Map.Entry<String, User> entry : this.userList.entrySet())
+        {
+            mapString += entry.getValue()+"\n";
+        }
+        return mapString;
+    }
 }

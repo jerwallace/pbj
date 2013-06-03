@@ -151,4 +151,9 @@ public class User implements Serializable
         }
         return mapString;
     }
+    
+    @Override
+    public String toString() {
+        return getUserName();
+    }
 }
