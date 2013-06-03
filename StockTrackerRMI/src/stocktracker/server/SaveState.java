@@ -39,7 +39,10 @@ public class SaveState
 
         try
         {
-            try (FileOutputStream fileOut = new FileOutputStream(this.tmpDir + "pbjdata.ser"); ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            try (
+                    FileOutputStream fileOut = new FileOutputStream(this.tmpDir + "pbjdata.ser"); 
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut)
+                ) {
                 out.writeObject(mapsToSave);
             }
         }

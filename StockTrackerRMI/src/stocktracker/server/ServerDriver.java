@@ -129,9 +129,7 @@ public class ServerDriver
             public void run()
             {
                 stateTools.saveState();
-                System.out.println("Inside Add Shutdown Hook");
             }
         });
-        System.out.println("Shut Down Hook Attached.");
     }
 }
