@@ -23,9 +23,6 @@ public class AdminApiImpl extends AbstractApiImpl implements AdminApi
     public AdminApiImpl() throws RemoteException
     {
         super();
-        UserList.getInstance().addUser("bahman");
-        UserList.getInstance().addUser("jeremy");
-        UserList.getInstance().addUser("peter");
     }
 
     /**

@@ -3,6 +3,7 @@ package stocktracker.client.protocol;
 import java.rmi.RemoteException;
 import stocktracker.api.AdminApi;
 import stocktracker.api.StockList;
+import stocktracker.api.User;
 import stocktracker.client.AdminSession;
 import stocktracker.client.protocol.CustomException.ErrorType;
 
@@ -15,7 +16,7 @@ public class AdminProtocol extends AbstractProtocol
 
     private String menu = "1. Update Stock Price" + "\t" + "2. Print Stock" + "\t" + "2. Log out";
     AdminSession thisSession = AdminSession.getInstance();
-
+    
     /**
      * getInstruction will return a question to the client based on a state.
      * @param currentState The current state the user is in.
@@ -68,11 +69,14 @@ public class AdminProtocol extends AbstractProtocol
     @Override
     public String processInput(String input) throws CustomException, RemoteException
     {
+        User currentUser = thisSession.getRemoteApi().getUser(thisSession.getUsername());
+        
+        System.out.println(thisSession.getUsername()+" - testing."+" ("+input+") - "+thisSession.getCurrentState().toString());
         String output = "";
 
         if (input.equalsIgnoreCase("cancel"))
         {
-            thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+            thisSession.setCurrentState(State.SELECT_COMMAND);
             return null;
         }
         else
@@ -80,7 +84,8 @@ public class AdminProtocol extends AbstractProtocol
             switch (thisSession.getCurrentState())
             {
                 case LOGIN:
-                    thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                    thisSession.setCurrentState(State.SELECT_COMMAND);
+                    System.out.println("login function.");
                     // If the user does not exist, a new user will be created.
                     if (thisSession.getRemoteApi().userExists(input))
                     {
@@ -94,18 +99,18 @@ public class AdminProtocol extends AbstractProtocol
                     toggleStateByCommand(Integer.parseInt(input));
                     break;
                 case UPDATE:
-                    thisSession.setCurrentState(AbstractProtocol.State.UPDATE_STOCK_PRICE);
+                    thisSession.setCurrentState(State.UPDATE_STOCK_PRICE);
                     thisSession.setSelectedStockName(thisSession.getRemoteApi().selectStock(thisSession.getSelectedStockName()));
                     return thisSession.getSelectedStockName()+" has been selected.";
                 case UPDATE_STOCK_PRICE:
-                    thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                    thisSession.setCurrentState(State.SELECT_COMMAND);
                     // Accept the new price and update the stock.
                     double newPrice = Double.parseDouble(input);
                     ((AdminApi)thisSession.getRemoteApi()).updateStock(thisSession.getSelectedStockName(),newPrice);
                     return "Stock Updated: "+((AdminApi)thisSession.getRemoteApi()).selectStock(thisSession.getSelectedStockName());
                 case PRINT_STOCK:
                     output = "Here is a list of all stocks you have updated:\n";
-                    thisSession.setCurrentState(AbstractProtocol.State.SELECT_COMMAND);
+                    thisSession.setCurrentState(State.SELECT_COMMAND);
                     return output + StockList.getInstance();
                 default:
                     throw new CustomException(ErrorType.INVALID_COMMAND);

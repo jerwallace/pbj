@@ -143,9 +143,9 @@ public class OnlineStockInfo
                     + "%26f%3Dsl1d1t1c1ohgv%26e%3D.csv%27%20and%20columns%3D%27symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Ccol1%2Chigh%2Clow%2Ccol2%27"
                     + "&format=json").toString();
 
-            System.out.println(yql);
+            //System.out.println(yql);
             JSONObject json = readJsonFromUrl(yql);
-            System.out.println(json);
+            //System.out.println(json);
             JSONObject results = json.getJSONObject("query").getJSONObject("results").getJSONObject("row");
             
             String price = results.get("price").toString();

@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import stocktracker.client.protocol.AbstractProtocol;
 import stocktracker.client.protocol.CustomException;
-import stocktracker.client.protocol.CustomException.ErrorType;
 
 /**
  * Abstract Client class
@@ -39,9 +38,10 @@ public abstract class AbstractClient
         //While User hasn't passed Exit message by chosing to Log Out do the following
         while (!inputString.equalsIgnoreCase("Exit"))
         {
-
+            String nextInstruction = "";
             //Get next instruction based on the current state of the current user of the given type using the its protocol
-            String nextInstruction = thisProtocol.getInstruction(UserSession.getInstance().getCurrentState());
+            nextInstruction = thisProtocol.getInstruction(UserSession.getInstance().getCurrentState());
+
 
             if (nextInstruction != null)
             {
